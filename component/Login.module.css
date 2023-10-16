@@ -6,12 +6,12 @@
 .left_side {
   display: grid;
   place-items: center;
-  height: 100vh;
 }
 
 .left_icon {
   color: #ffffff;
   font-size: 300px;
+  width: 100%;
 }
 
 .right_side{
@@ -20,6 +20,7 @@
 
 .right_side h1{
   font-size: 450%;
+  width: 100%;
 }
 
 .Oauth {
