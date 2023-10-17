@@ -1,10 +1,10 @@
 import styles from '../styles/Home.module.css';
-import Login from '../component/Login';
+import AuthPage from '../component/AuthPage';
 
 export default function Home() {
   return (
     <div className={styles.container}>
-      <Login></Login>
+      <AuthPage></AuthPage>
     </div>
   )
 }

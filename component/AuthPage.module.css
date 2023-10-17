@@ -1,0 +1,87 @@
+.container {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  font-family: Helvetica;
+}
+
+.left_side {
+  display: grid;
+  place-items: center;
+}
+
+.left_icon {
+  color: #ffffff;
+  font-size: 330px;
+  width: 100%;
+  margin-top: 30%;
+}
+
+.right_side{
+  margin-left: 5%;
+}
+
+.right_side h1{
+  font-size: 450%;
+  width: 100%;
+  margin-top: 15%;
+}
+
+.right_side h3{
+  font-size: 200%;
+  width: 100%;
+}
+
+.auth {
+  display: flex;
+  padding: 0.6rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  gap: 1rem;
+  border-radius: 30px;
+  align-items: center;
+  cursor: pointer;
+  background: #fff;
+  color: black;
+  width: 300px;
+  justify-content: center;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.btn2 {
+  background: rgb(0, 0, 0);
+  color: rgb(0, 174, 255);
+  border: 1px solid #ffffffaf;
+  padding: 0.6rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  border-radius: 30px;
+  align-items: center;
+  cursor: pointer;
+  width: 300px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.btn1 {
+  background: rgb(0, 174, 255);
+  color: #ffffff;
+  padding: 0.6rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  border-radius: 30px;
+  align-items: center;
+  cursor: pointer;
+  width: 300px;
+  font-weight: bold;
+  margin-bottom: 5%;
+  border: none;
+}
+
+.btn1:hover {
+  background-color: rgba(0, 174, 255, 0.829);
+}
+
+.btn2:hover {
+  background-color: rgb(0, 28, 40);
+}
