@@ -1,4 +1,4 @@
-import styles from "../component/Modal.module.css";
+import styles from "../components/Modal.module.css";
 
 const Modal = ({ isOpen, closeModal, children }) => {
   return (

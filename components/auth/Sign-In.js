@@ -1,11 +1,9 @@
 import { useState } from "react";
-import styles from "./Form.module.css";
+import styles from "./SingInForm.module.css";
 
-const SignUp = () => {
-  const [name, setName] = useState("");
+const signIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -14,15 +12,7 @@ const SignUp = () => {
   return (
     <div className={styles.container}>
       <form onSubmit={handleSubmit}>
-        <div>Create Your Account</div>
-        <div>
-          <input
-            placeholder="Name"
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </div>
+        <div>Sign In</div>
         <div>
           <input
             placeholder="Email"
@@ -39,18 +29,10 @@ const SignUp = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <div>
-          <input
-            placeholder="Confirm Password"
-            type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
-        </div>
-        <button type="submit">Register</button>
+        <button type="submit">Sign In</button>
       </form>
     </div>
   );
-};
+}
 
-export default SignUp;
+export default signIn;

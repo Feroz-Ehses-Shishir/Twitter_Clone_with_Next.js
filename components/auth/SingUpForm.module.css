@@ -1,0 +1,28 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.container input{
+    background-color: inherit;
+    color: #ffffff;
+    border: 0.5px solid #cccccc37;
+    width: 90%;
+    height: 28px;
+    margin-top: 2%;
+}
+
+.container button{
+    background: rgb(0, 174, 255);
+    color: #ffffff;
+    width: 90%;
+    height: 28px;
+    margin-top: 3%;
+    border: none;
+}
+
+.container button:hover {
+    background-color: rgba(0, 174, 255, 0.829);
+  }
