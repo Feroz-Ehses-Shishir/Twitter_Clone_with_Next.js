@@ -1,6 +1,6 @@
 import { useState } from "react";
-import axios from "axios";
-import styles from "./SingUpForm.module.css";
+import styles from "./singUpForm.module.css";
+import signUpAction from "../../libs/actions/signUpAction";
 import { useRouter } from "next/router";
 
 const SignUp = (props) => {
@@ -11,20 +11,22 @@ const SignUp = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [error,setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    await axios
-    .post(`/api/users`, { name: name, email: email, password: password })
-    .then((res) => {
+    const res = await signUpAction(name,email,password,confirmPassword);
+    
+    if(res=="Ok"){
         setName("");
         setEmail("");
         setPassword("");
         props.setIsOpenSignUp(false);
         router.push('/home');
-      })
-      .catch((err) => console.log(err));
+    }
+    else{
+      setError(res);
+    }
   };
 
   return (
@@ -63,6 +65,7 @@ const SignUp = (props) => {
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
         </div>
+        {error?(<p className={styles.error}>{error}</p>):(<p></p>)}
         <button type="submit">Register</button>
       </form>
     </div>

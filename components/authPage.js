@@ -1,11 +1,11 @@
 import { BsGithub } from "react-icons/bs";
 import { FaXTwitter } from "react-icons/fa6";
-import styles from "./AuthPage.module.css";
+import styles from "./authPage.module.css";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import Modal from "./Modal";
-import SignUp from "./auth/Sign-Up";
-import SignIn from "./auth/Sign-In";
+import SignUp from "./auth/signUp";
+import SignIn from "./auth/signIn";
 
 const AuthPage = () => {
   const router = useRouter();
@@ -40,7 +40,7 @@ const AuthPage = () => {
         </div>
         <button onClick={handleModalSignUp} className={styles.btn1}>Create Account</button>
         <Modal isOpen={isOpenSignUp} closeModal={closeModal}>
-          <SignUp></SignUp>
+          <SignUp setIsOpenSignUp={setIsOpenSignUp}></SignUp>
         </Modal>
         <h4>Already have an account?</h4>
         <button onClick={handleModalSignIn} className={styles.btn2}>Sign In</button>
