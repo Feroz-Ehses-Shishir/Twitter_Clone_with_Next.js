@@ -11,7 +11,7 @@
     border: 0.5px solid #cccccc37;
     width: 90%;
     height: 35px;
-    margin-top: 5%;
+    margin-top: 3%;
 }
 
 .container button{
@@ -19,10 +19,27 @@
     color: #ffffff;
     width: 90%;
     height: 35px;
-    margin-top: 6%;
+    margin-top: 3%;
     border: none;
 }
 
 .container button:hover {
     background-color: rgba(0, 174, 255, 0.829);
+  }
+
+  .auth {
+    display: flex;
+    padding: 0.6rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    gap: 1rem;
+    border-radius: 30px;
+    align-items: center;
+    cursor: pointer;
+    background: #fff;
+    color: black;
+    width: 300px;
+    justify-content: center;
+    font-weight: bold;
+    margin-left: 80px;
   }

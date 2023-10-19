@@ -38,7 +38,7 @@ const SignUp = (props) => {
             placeholder="Name"
             type="text"
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => {setName(e.target.value),setError("")}}
           />
         </div>
         <div>
@@ -46,7 +46,7 @@ const SignUp = (props) => {
             placeholder="Email"
             type="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => {setEmail(e.target.value),setError("")}}
           />
         </div>
         <div>
@@ -54,7 +54,7 @@ const SignUp = (props) => {
             placeholder="Password"
             type="password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => {setPassword(e.target.value),setError("")}}
           />
         </div>
         <div>
@@ -62,7 +62,7 @@ const SignUp = (props) => {
             placeholder="Confirm Password"
             type="password"
             value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            onChange={(e) => {setConfirmPassword(e.target.value),setError("")}}
           />
         </div>
         {error?(<p className={styles.error}>{error}</p>):(<p></p>)}

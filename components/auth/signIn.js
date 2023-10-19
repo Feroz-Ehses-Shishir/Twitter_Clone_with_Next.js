@@ -1,9 +1,15 @@
 import { useState } from "react";
 import styles from "./singInForm.module.css";
+import { useSession, signIn, signOut } from "next-auth/react";
+import { BsGithub } from "react-icons/bs";
 
-const signIn = () => {
+const signInc = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const handleOauth = async () => {
+    signIn('github',{callbackUrl:"http://localhost:3000/home"});
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -30,9 +36,14 @@ const signIn = () => {
           />
         </div>
         <button type="submit">Sign In</button>
+        <p>OR</p>
       </form>
+      <div className={styles.auth} onClick={handleOauth}>
+        <BsGithub className={styles.right_icon} />
+        Sign In with Github
+      </div>
     </div>
   );
-}
+};
 
-export default signIn;
+export default signInc;

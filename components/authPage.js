@@ -6,11 +6,16 @@ import { useState } from "react";
 import Modal from "./Modal";
 import SignUp from "./auth/signUp";
 import SignIn from "./auth/signIn";
+import { useSession, signIn, signOut } from "next-auth/react"
 
 const AuthPage = () => {
   const router = useRouter();
   const [isOpenSignUp, setIsOpenSignUp] = useState(false);
   const [isOpenSignIn, setIsOpenSignIn] = useState(false);
+
+  const handleOauth = async () => {
+    console.log("hello");
+  }
 
   const handleModalSignUp = () => {
     setIsOpenSignUp(true);
@@ -34,7 +39,7 @@ const AuthPage = () => {
       <div className={styles.right_side}>
         <h1>Happening now</h1>
         <h3>Join today.</h3>
-        <div className={styles.auth} onClick={() => signIn("google")}>
+        <div className={styles.auth} onClick={handleOauth}>
           <BsGithub className={styles.right_icon} />
           Sign Up with Github
         </div>
