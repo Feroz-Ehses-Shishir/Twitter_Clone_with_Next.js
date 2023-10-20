@@ -14,7 +14,7 @@ const AuthPage = () => {
   const [isOpenSignIn, setIsOpenSignIn] = useState(false);
 
   const handleOauth = async () => {
-    console.log("hello");
+    signIn('github',{callbackUrl:"http://localhost:3000/home"});
   }
 
   const handleModalSignUp = () => {
