@@ -22,7 +22,8 @@ const SignUp = (props) => {
         setEmail("");
         setPassword("");
         props.setIsOpenSignUp(false);
-        router.push('/home');
+        props.toast("Please check your email");
+        router.push('/');
     }
     else{
       setError(res);

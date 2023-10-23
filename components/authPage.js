@@ -6,7 +6,8 @@ import { useState } from "react";
 import Modal from "./Modal";
 import SignUp from "./auth/signUp";
 import SignIn from "./auth/signIn";
-import { useSession, signIn, signOut } from "next-auth/react"
+import { useSession, signIn, signOut } from "next-auth/react";
+import toast, { Toaster } from 'react-hot-toast';
 
 const AuthPage = () => {
   const router = useRouter();
@@ -31,6 +32,8 @@ const AuthPage = () => {
   };
 
   return (
+    <>
+    <div><Toaster/></div>
     <div className={styles.container}>
       <div className={styles.left_side}>
         <FaXTwitter className={styles.left_icon} />
@@ -45,7 +48,7 @@ const AuthPage = () => {
         </div>
         <button onClick={handleModalSignUp} className={styles.btn1}>Create Account</button>
         <Modal isOpen={isOpenSignUp} closeModal={closeModal}>
-          <SignUp setIsOpenSignUp={setIsOpenSignUp}></SignUp>
+          <SignUp setIsOpenSignUp={setIsOpenSignUp} toast={toast}></SignUp>
         </Modal>
         <h4>Already have an account?</h4>
         <button onClick={handleModalSignIn} className={styles.btn2}>Sign In</button>
@@ -54,6 +57,7 @@ const AuthPage = () => {
         </Modal>
       </div>
     </div>
+    </>
   );
 };
 
