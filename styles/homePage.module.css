@@ -2,3 +2,8 @@
   position: relative;
   max-width: 1400px;
 }
+ 
+.feed_container {
+  display: flex;
+  gap: 1.5rem;
+}

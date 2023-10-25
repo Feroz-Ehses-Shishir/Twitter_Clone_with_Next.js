@@ -10,23 +10,50 @@
   height: 100%;
 }
 
-.logo {
-  display: flex;
-  padding: 0;
-  justify-content: center;
-  align-items: center;
-  width: 3.5rem;
-  height: 3.5rem;
-}
-
-.logo2 {
-  color: #ffffff;
-  font-size: 34px;
-}
 
 .links_container {
   margin-bottom: 0.625rem;
   margin-top: 1rem;
   margin-top: 0.5rem;
-  margin-left: 6rem;
+  margin-left: 12%;
+  width: 100%;
+}
+
+.tweet {
+  border-style: none;
+  border-radius: 99px;
+  width: 13rem;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  font-weight: 700;
+  color: #ffffff;
+  background: #1d9bf0;
+  height: 52px;
+}
+.tweet:hover {
+  background: #1a8cd8;
+}
+
+.logout {
+  border-style: none;
+  border-radius: 99px;
+  width: 100%;
+  font-size: 1rem;
+  line-height: 1.75rem;
+  font-weight: 700;
+  color: #ffffff;
+  height: 40px;
+  background: inherit;
+  margin-top: 2%;
+  margin-left: 10%;
+}
+
+.logout:hover {
+  background: rgba(114, 114, 114, 0.342);
+}
+
+@media screen and (max-width: 950px) {
+  .tweet {
+    display: none;
+  }
 }

@@ -3,9 +3,9 @@ import { FaXTwitter } from "react-icons/fa6";
 import styles from "./authPage.module.css";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import Modal from "./Modal";
-import SignUp from "./auth/signUp";
-import SignIn from "./auth/signIn";
+import Modal from "../modal/Modal";
+import SignUp from "./Sign-Up";
+import SignIn from "./Sign-In";
 import { useSession, signIn, signOut } from "next-auth/react";
 import toast, { Toaster } from 'react-hot-toast';
 

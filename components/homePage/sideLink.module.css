@@ -1,0 +1,41 @@
+.container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 20px;
+  font-size: 1.8rem;
+  line-height: 1.75rem;
+  padding: 2%;
+  padding-left: 10%;
+  margin-bottom: 10px;
+  cursor:pointer;
+}
+
+.container:hover {
+  font-weight: bold;
+  background: #8b8b8b35;
+}
+
+.latter{
+    font-size: 1.2rem;
+}
+
+.logo {
+  cursor:pointer;
+  width: 100%;
+  font-size: 1.8rem;
+  line-height: 1.75rem;
+  padding: 2%;
+  padding-left: 10%;
+  margin-bottom: 10px;
+}
+
+@media screen and (max-width: 950px) {
+  .container {
+    justify-content: center;
+    font-size: 2.5rem;
+  }
+  .latter {
+    display: none;
+  }
+}
