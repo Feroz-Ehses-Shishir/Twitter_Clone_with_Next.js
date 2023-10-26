@@ -37,6 +37,7 @@ const authOptions = {
     async session({ session, token}) {
       connectMongoDB().catch(err => {err : "connection failed"});
       const check = await user.findOne({email:session.user.email});
+      session.user.uid = check._id;
       // console.log(check);
       if(check==null){
         const data = await user.create({ name:session.user.name, email:session.user.email, password:"-" });
