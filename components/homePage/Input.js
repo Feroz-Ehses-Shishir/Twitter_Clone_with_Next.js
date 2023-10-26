@@ -3,6 +3,7 @@ import styles from "./input.module.css";
 import { useSession, signOut, getSession } from "next-auth/react";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsImage } from "react-icons/bs";
+import axios from "axios";
 import postAction from "../../libs/actions/postAction";
 import uploadAction from "../../libs/actions/uploadAction";
 
@@ -26,14 +27,27 @@ const Input = () => {
   };
 
   const sendPost = async () => {
+    if (!image) {
+      alert("Please select a file to upload.");
+      return;
+    }
+
     const formData = new FormData();
-    formData.append('file',image);
-    await uploadAction(formData);
-    // console.log(formData);
-    // postAction(session?.user?.uid,input,formData,"post","+");
+    formData.append("file", image);
+
+    try {
+      const response = await axios.post("/api/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+    } catch (error) {
+      console.error("File upload error:", error);
+    }
+
     setInput("");
     setSelectedFile(null);
-  }
+  };
 
   return (
     <div className={styles.container}>
@@ -70,10 +84,7 @@ const Input = () => {
               <input id="file" type="file" hidden onChange={addImageToPost} />
             </div>
 
-            <button
-              className={styles.input_button}
-              onClick={sendPost}
-            >
+            <button className={styles.input_button} onClick={sendPost}>
               Tweet
             </button>
           </div>

@@ -17,8 +17,7 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: "File upload failed." });
     }
 
-    console.log(files.file);
-
+    // console.log(files.file.path);
     const oldPath = files.file.path;
     const extension = path.extname(files.file.name);
     const newPath = path.join(form.uploadDir, Date.now() + extension);
