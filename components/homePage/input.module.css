@@ -94,6 +94,7 @@
   font-weight: 700; 
   color: #ffffff; 
   background: #1d9bf0;
+  cursor: pointer;
 }
 
 .input_button:hover {

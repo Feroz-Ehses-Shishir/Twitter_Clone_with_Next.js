@@ -3,7 +3,6 @@ import styles from "./input.module.css";
 import { useSession, signOut, getSession } from "next-auth/react";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsImage } from "react-icons/bs";
-import axios from "axios";
 import postAction from "../../libs/actions/postAction";
 import uploadAction from "../../libs/actions/uploadAction";
 
@@ -27,23 +26,12 @@ const Input = () => {
   };
 
   const sendPost = async () => {
-    if (!image) {
-      alert("Please select a file to upload.");
-      return;
+    let filename="";
+    if (image) {
+      filename = await uploadAction(image);
     }
-
-    const formData = new FormData();
-    formData.append("file", image);
-
-    try {
-      const response = await axios.post("/api/upload", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-    } catch (error) {
-      console.error("File upload error:", error);
-    }
+  
+    await postAction(session.user?.uid,input,filename.data,"post","none");
 
     setInput("");
     setSelectedFile(null);

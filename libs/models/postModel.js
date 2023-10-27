@@ -8,6 +8,6 @@ const postSchema = new Schema({
   parentId: { type: String, required: true },
 });
 
-const post = models.post || model("post", userSchema);
+const post = models.post || model("post", postSchema);
 
 export default post;

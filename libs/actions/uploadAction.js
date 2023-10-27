@@ -1,21 +1,20 @@
 import axios from "axios";
 
-const uploadAction = async ({formData}) => {
-  let data;
-  await axios
-    .post(`/api/upload`,formData,{
-        headers: {
-            'Content-Type': 'multipart/form-data',
-        },
-    })
-    .then((res) => {
-      data = "Ok";
-    })
-    .catch((err) => {
-      data = err.response.data;
-    });
+const uploadAction = async (image) => {
 
-    return data;
+  const formData = new FormData();
+  formData.append("file", image);
+
+  try {
+    const response = await axios.post("/api/upload", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response;
+  } catch (error) {
+    console.error("File upload error:", error);
+  }
 };
 
 export default uploadAction;

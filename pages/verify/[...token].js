@@ -15,6 +15,7 @@ const token = (props) => {
 export const getServerSideProps = async (ctx) => {
     let verify = "No"
     const {params} = ctx;
+    // console.log(params);
     await connectMongoDB();
     const result = await user.findOneAndUpdate({ _id: params.token },{verifyUser: "Yes" });
 
