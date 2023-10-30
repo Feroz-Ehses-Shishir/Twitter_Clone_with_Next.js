@@ -1,5 +1,5 @@
-import NextAuth from "next-auth"
-import GithubProvider from "next-auth/providers/github"
+import NextAuth from "next-auth";
+import GithubProvider from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { connectMongoDB } from "../../../libs/MongoConnect";
 import user from "../../../libs/models/userModel";
@@ -12,39 +12,50 @@ const authOptions = {
       clientSecret: process.env.GITHUB_SECRET,
     }),
     CredentialsProvider({
-      name : "Credentials",
-      async authorize(credentials,req){
-        connectMongoDB().catch(err => {err : "connection failed"});
+      name: "Credentials",
+      async authorize(credentials, req) {
+        connectMongoDB().catch((err) => {
+          err: "connection failed";
+        });
 
         //check user
-        const result = await user.findOne({email : credentials.email});
-        if(!result){
+        const result = await user.findOne({ email: credentials.email });
+        if (!result) {
           throw new Error("No user Found");
         }
         //compare
-        const checkPassword = await compare(credentials.password,result.password);
+        const checkPassword = await compare(
+          credentials.password,
+          result.password
+        );
         //incorrect password
-        if(!checkPassword || result.email!==credentials.email){
+        if (!checkPassword || result.email !== credentials.email) {
           throw new Error("Username or Password doesn't match");
         }
 
         return result;
-
-      }
-    })
+      },
+    }),
   ],
   callbacks: {
-    async session({ session, token}) {
-      connectMongoDB().catch(err => {err : "connection failed"});
-      const check = await user.findOne({email:session.user.email});
+    async session({ session, token }) {
+      connectMongoDB().catch((err) => {err: "connection failed";});
+      const check = await user.findOne({ email: session.user.email });
       session.user.uid = check._id;
-      // console.log(check);
-      if(check==null){
-        const data = await user.create({ name:session.user.name, email:session.user.email, password:"-" });
-      }
       return session;
-    }
-  }
-}
+    },
+    async signIn({ account }) {
+      if (account.type == "oauth") {
+        connectMongoDB().catch((err) => {err: "connection failed";});
+        const check = await user.findOne({ email: session.user.email });
+        session.user.uid = check._id;
+        if (check == null) {
+          const data = await user.create({name: session.user.name,email: session.user.email,password: "-"});
+        }
+      }
+      return true;
+    },
+  },
+};
 
 export default NextAuth(authOptions);

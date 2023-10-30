@@ -1,15 +1,18 @@
 import styles from "./feed.module.css";
-import { HiOutlineSparkles } from "react-icons/hi";
 import Input from "./Input";
+import Post from "./Post";
 
 const Feed = () => {
   return (
     <div className={styles.container}>
       <div className={styles.container_2}>
         Home
-        {/* <HiOutlineSparkles /> */}
       </div>
       <Input/>
+      <Post/>
+      {/* {posts.map((post) => (
+        <Post></Post>
+      ))} */}
     </div>
   );
 };
