@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./input.module.css";
 import { useSession, signOut, getSession } from "next-auth/react";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsImage } from "react-icons/bs";
-import postAction from "../../libs/actions/postAction";
 import uploadAction from "../../libs/actions/uploadAction";
+import { POST_ACTIONS } from "../../libs/actions/post-actions";
+import { useActionDispatcher } from "../../hooks/use-action-dispatcher";
 
 const Input = () => {
   const { data: session } = useSession();
@@ -12,7 +13,18 @@ const Input = () => {
   const [image, setImage] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
 
-  // console.log(session.user?.uid);
+  const [state, dispatch] = useActionDispatcher([{
+    userID: "",
+    text: "",
+    image_url: "",
+    type: "",
+    parent: "",
+  }]);
+
+  useEffect( () => {
+    dispatch(POST_ACTIONS.get);
+    console.log(state);
+  },[]);
 
   const addImageToPost = (e) => {
     setImage(e.target.files[0]);
@@ -26,12 +38,12 @@ const Input = () => {
   };
 
   const sendPost = async () => {
-    let filename="";
+    let filename="/";
     if (image) {
       filename = await uploadAction(image);
     }
-  
-    await postAction(session.user?.uid,input,filename.data,"post","none");
+
+    await dispatch(POST_ACTIONS.post,{id:session.user?.uid,input,filename:filename.data,type:"post",parent:"none"});
 
     setInput("");
     setSelectedFile(null);

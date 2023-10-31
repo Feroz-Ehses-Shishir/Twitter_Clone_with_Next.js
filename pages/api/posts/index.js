@@ -14,6 +14,6 @@ export default async function handler(req, res) {
 
     return;
   } else if (req.method == "GET") {
-    await postGetService(req);
+    await postGetService(req,res);
   }
 }
