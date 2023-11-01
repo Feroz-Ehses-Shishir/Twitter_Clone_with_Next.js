@@ -1,7 +1,7 @@
 import { Schema, model, models } from "mongoose";
 
 const postSchema = new Schema({
-  userId: { type: String, required: true },
+  userId: [{ type: Schema.Types.ObjectId, ref: 'user' }],
   text: { type: String, required: true },
   img: { type: String },
   type: { type: String, required: true },

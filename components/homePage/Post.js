@@ -5,7 +5,7 @@ import { FaRetweet } from "react-icons/fa";
 import { AiOutlineHeart, AiOutlineShareAlt, AiFillHeart } from 'react-icons/ai';
 import { RiDeleteBin5Line } from 'react-icons/ri';
 
-const Post = () => {
+const Post = (props) => {
   const { data: session } = useSession();
 
   return (
@@ -26,7 +26,7 @@ const Post = () => {
               </p>
             </div>
           </div>
-          <p>post text hen ten....</p>
+          <p>{props.post.text}</p>
           <img
             className={styles.post_image}
             // src={post?.image}

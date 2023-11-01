@@ -32,17 +32,7 @@ export const POST_ACTIONS = {
   get: async (payload, state, dispatch) => {
     
     const { data } = await axios.get(`/api/posts`);
-
-    return [
-      ...state,
-      {
-        userID: data.userId,
-        text: data.text,
-        image_url: data.img,
-        type: data.type,
-        parent: data.parentId,
-      },
-    ];
+    return data;
   },
 
   // decrement: (payload, state, dispatch) => {

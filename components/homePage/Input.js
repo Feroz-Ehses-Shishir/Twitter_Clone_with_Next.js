@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import styles from "./input.module.css";
 import { useSession, signOut, getSession } from "next-auth/react";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsImage } from "react-icons/bs";
 import uploadAction from "../../libs/actions/uploadAction";
 import { POST_ACTIONS } from "../../libs/actions/post-actions";
-import { useActionDispatcher } from "../../hooks/use-action-dispatcher";
+import { AppContext } from "../../contexts/AppContext";
 
 const Input = () => {
   const { data: session } = useSession();
@@ -13,18 +13,7 @@ const Input = () => {
   const [image, setImage] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
 
-  const [state, dispatch] = useActionDispatcher([{
-    userID: "",
-    text: "",
-    image_url: "",
-    type: "",
-    parent: "",
-  }]);
-
-  useEffect( () => {
-    dispatch(POST_ACTIONS.get);
-    console.log(state);
-  },[]);
+  const [,dispatch] = useContext(AppContext);
 
   const addImageToPost = (e) => {
     setImage(e.target.files[0]);
