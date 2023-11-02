@@ -18,9 +18,9 @@ export default async function handler(req, res) {
         //  response = files.file[0].originalFilename;
          var oldPath = files.file[0].filepath;
          var newPath = `./public/images/${files.file[0].originalFilename}`;
-         mv(oldPath, newPath, function(err) {
+         mv(oldPath, newPath, function(err) {   
          });
-         res.status(200).json(files.file[0].originalFilename)
+         res.status(200).json(`/images/${files.file[0].originalFilename}`)
      })
  })
 }

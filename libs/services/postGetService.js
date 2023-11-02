@@ -4,7 +4,7 @@ import post from "../models/postModel";
 const postGetService = async (req, res) => {
   await connectMongoDB();   
   try {
-    const data = await post.find({}).populate({path:'userId',model:'user'});
+    const data = await post.find().populate('userId');
     res.status(200).send(data);
     return data;
   } catch (err) {

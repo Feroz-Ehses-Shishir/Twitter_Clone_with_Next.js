@@ -1,9 +1,9 @@
 import axios from "axios";
 
-const signUpAction = async (name, email, password, confirmPassword) => {
+const signUpAction = async (name, email, password, confirmPassword, img) => {
   let data;
   await axios
-    .post(`/api/users`, { name, email, password, confirmPassword })
+    .post(`/api/users`, { name, email, password, confirmPassword})
     .then((res) => {
       data = "Ok";
     })

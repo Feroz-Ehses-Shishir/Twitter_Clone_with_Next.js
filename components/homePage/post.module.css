@@ -1,7 +1,6 @@
 .container {
   padding-left: 1rem;
   padding-right: 1rem;
-  padding-bottom: 1rem;
   padding-top: 1.5rem;
   margin-top: 1rem;
   border-top: 1px solid #9ca3af59;
@@ -40,28 +39,31 @@
 
 .post_image {
   object-fit: cover;
-  margin-top: 0.5rem;
-  max-height: 450px;
+  border-radius: 1rem;
+  max-height: 100%;
+  max-width: 100%;
 }
 
 .container5 {
   display: flex;
   justify-content: space-between;
-  font-size: 20px;
+  font-size: 16px;
   margin-top: 1rem;
-  width: 80%;
+  width: 95%;
+  color: rgba(255, 255, 255, 0.669);
 }
 
 .container6 {
   display: flex;
   gap: 0.25rem;
   align-items: center;
+  margin-left: 4%;
 }
 
-.container7:hover {
-  width: 1.75rem;
-  height: 1.75rem;
-  padding: 0.25rem;
+.container6:hover {
+  color: rgb(0, 166, 255);
+  background:rgba(0, 166, 255, 0.078);
+  border-radius: 30%;
 }
 
 .container8 {
@@ -95,6 +97,7 @@
     font-size: 0.875rem;
 }
 
-.container14 {
+.container14:hover {
+  text-decoration: underline;
 }
 

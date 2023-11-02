@@ -7,13 +7,18 @@ import uploadAction from "../../libs/actions/uploadAction";
 import { POST_ACTIONS } from "../../libs/actions/post-actions";
 import { AppContext } from "../../contexts/AppContext";
 
-const Input = () => {
+const Input = (props) => {
   const { data: session } = useSession();
   const [input, setInput] = useState("");
   const [image, setImage] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
 
-  const [,dispatch] = useContext(AppContext);
+  // const [,dispatch] = useContext(AppContext);
+
+  useEffect(() => {
+    props.dispatch(POST_ACTIONS.get);
+    props.setLoading(true);
+  }, []);
 
   const addImageToPost = (e) => {
     setImage(e.target.files[0]);
@@ -30,9 +35,10 @@ const Input = () => {
     let filename="/";
     if (image) {
       filename = await uploadAction(image);
+      props.setFileName(filename);
     }
 
-    await dispatch(POST_ACTIONS.post,{id:session.user?.uid,input,filename:filename.data,type:"post",parent:"none"});
+    await props.dispatch(POST_ACTIONS.post,{id:session.user?.uid,input,filename:filename.data,type:"post",parent:"none"});
 
     setInput("");
     setSelectedFile(null);

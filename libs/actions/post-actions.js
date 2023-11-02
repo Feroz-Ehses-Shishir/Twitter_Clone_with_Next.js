@@ -6,7 +6,7 @@ export const POST_ACTIONS = {
       .post(`/api/posts`, {
         userId: payload.id,
         text: payload.input,
-        img: payload.filename,
+        image_url: payload.filename,
         type: payload.type,
         parentId: payload.parent,
       })
@@ -20,11 +20,11 @@ export const POST_ACTIONS = {
     return [
       ...state,
       {
-        userID: payload.id,
+        userId: payload.id,
         text: payload.input,
         image_url: payload.filename,
         type: payload.type,
-        parent: payload.parent,
+        parentId: payload.parent,
       },
     ];
   },
