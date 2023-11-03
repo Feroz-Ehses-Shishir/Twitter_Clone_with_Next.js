@@ -8,6 +8,7 @@ import SignUp from "./Sign-Up";
 import SignIn from "./Sign-In";
 import { useSession, signIn, signOut } from "next-auth/react";
 import toast, { Toaster } from 'react-hot-toast';
+import Edit from "../homePage/Edit";
 
 const AuthPage = () => {
   const router = useRouter();
@@ -54,6 +55,7 @@ const AuthPage = () => {
         <button onClick={handleModalSignIn} className={styles.btn2}>Sign In</button>
         <Modal isOpen={isOpenSignIn} closeModal={closeModal}>
           <SignIn></SignIn>
+          {/* <Edit></Edit> */}
         </Modal>
       </div>
     </div>

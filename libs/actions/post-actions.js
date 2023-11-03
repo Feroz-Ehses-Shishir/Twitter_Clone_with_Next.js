@@ -9,6 +9,7 @@ export const POST_ACTIONS = {
         image_url: payload.filename,
         type: payload.type,
         parentId: payload.parent,
+        fId: payload.fId
       })
       .then((res) => {
         return res;
@@ -25,17 +26,19 @@ export const POST_ACTIONS = {
         image_url: payload.filename,
         type: payload.type,
         parentId: payload.parent,
+        fId: payload.fId
       },
     ];
   },
 
   get: async (payload, state, dispatch) => {
-    
     const { data } = await axios.get(`/api/posts`);
     return data;
   },
 
-  // decrement: (payload, state, dispatch) => {
-  //   return prev => ({...prev, count: prev.count -1})
-  // },
+  DELETE: async (payload, state, dispatch) => {
+    const { data } = await axios.delete(`/api/posts/${payload.fId}`);
+    const updatedItems = await state.filter(item => item.fId !== payload.fId);
+    return updatedItems;
+  },
 };

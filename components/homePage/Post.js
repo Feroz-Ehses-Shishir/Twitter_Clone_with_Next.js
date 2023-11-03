@@ -4,25 +4,43 @@ import { BsChat } from "react-icons/bs";
 import { FaRetweet } from "react-icons/fa6";
 import { AiOutlineHeart, AiOutlineShareAlt, AiFillHeart } from "react-icons/ai";
 import { RiDeleteBin5Line } from "react-icons/ri";
-import Image from "next/image";
-import Input from "./Input";
+import { BiCommentEdit } from "react-icons/bi";
 import { useState } from "react";
+import { POST_ACTIONS } from "../../libs/actions/post-actions";
+import { useActionDispatcher } from "../../hooks/use-action-dispatcher";
+import Modal from "../modal/Modal";
+import Edit from "./Edit";
 
 const Post = (props) => {
   const { data: session } = useSession();
   let user_name = props?.post?.userId?.name;
   let img = props?.post?.userId?.img;
   let url = props?.post?.image_url;
+  let isUser = props?.post?.userId?._id;
 
   if (user_name == undefined) {
     user_name = session?.user?.name;
     img = session?.user?.image;
+    isUser = props?.post?.userId;
   }
 
-  const [comment,setComment] = useState(false);
+  const deletePost = async () =>{
+    await props.dispatch(POST_ACTIONS.DELETE,{id:props?.post?._id,fId:props?.post?.fId});
+  }
+
+  const [comment, setComment] = useState(false);
+  const [edit, setEdit] = useState(false);
+
+  const handleEdit = () => {
+    setEdit(true);
+  };
+
+  const closeModal = () => {
+    setEdit(false);
+  };
 
   return (
-    <div className={styles.container}>
+    <div key={props?.post?._id} className={styles.container}>
       <div className={styles.container_2}>
         <div>
           <img className={styles.imgg} src={img} alt="" />
@@ -43,23 +61,27 @@ const Post = (props) => {
           <img className={styles.post_image} src={url} alt="" />
 
           <div className={styles.container5}>
-            <div onClick={() => {setComment(prev => !prev)}} className={styles.container6}>
+            <div
+              onClick={() => {
+                setComment((prev) => !prev);
+              }}
+              className={styles.container6}
+            >
               <BsChat className={styles.container7} />
               {/* comments.length */}
               {1 > 0 && <span className={styles.container8}>{1}</span>}
             </div>
 
-            {session.user.uid !== 1 ? (
+            {session.user?.uid !== isUser ? (
               <FaRetweet className={styles.container7} />
             ) : (
               <RiDeleteBin5Line
-                className={styles.container8}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  //function call
-                }}
+                className={styles.container84}
+                onClick={deletePost}
               />
             )}
+
+
             {/* like post */}
             <div
               className={styles.container9}
@@ -76,7 +98,7 @@ const Post = (props) => {
               {/* liked length */}
               {1 > 0 && (
                 <span
-                  className={`${1 && styles.container12} ${styles.container12}`}
+                  className={`${1 && styles.container8} ${styles.container8}`}
                 >
                   1
                 </span>
@@ -84,9 +106,20 @@ const Post = (props) => {
             </div>
 
             <AiOutlineShareAlt className={styles.container11} />
+
+            {session.user?.uid == isUser && (
+              <div className={styles.container85}>
+                <BiCommentEdit
+                  onClick={handleEdit}
+                />
+              </div>
+            )}
+            <Modal isOpen={edit} closeModal={closeModal}>
+              <Edit></Edit>
+           </Modal>
           </div>
         </div>
-        {comment && (<div></div>)}
+        {comment && <div></div>}
       </div>
     </div>
   );

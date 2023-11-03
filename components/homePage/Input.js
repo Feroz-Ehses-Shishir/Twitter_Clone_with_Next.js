@@ -12,6 +12,7 @@ const Input = (props) => {
   const [input, setInput] = useState("");
   const [image, setImage] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
+  const fId = Math.floor((Math.random() * 100000) + 1);
 
   // const [,dispatch] = useContext(AppContext);
 
@@ -35,10 +36,9 @@ const Input = (props) => {
     let filename="/";
     if (image) {
       filename = await uploadAction(image);
-      props.setFileName(filename);
     }
 
-    await props.dispatch(POST_ACTIONS.post,{id:session.user?.uid,input,filename:filename.data,type:"post",parent:"none"});
+    await props.dispatch(POST_ACTIONS.post,{id:session.user?.uid,input,filename:filename.data,type:"post",parent:"none",fId});
 
     setInput("");
     setSelectedFile(null);

@@ -4,6 +4,7 @@
   padding-top: 1.5rem;
   margin-top: 1rem;
   border-top: 1px solid #9ca3af59;
+  box-sizing: border-box;
 }
 
 .container_2 {
@@ -47,10 +48,14 @@
 .container5 {
   display: flex;
   justify-content: space-between;
+  flex-direction: row;
+  /* align-items:baseline; */
+  align-items: center;
   font-size: 16px;
   margin-top: 1rem;
   width: 95%;
-  color: rgba(255, 255, 255, 0.669);
+  color: rgba(255, 255, 255, 0.53);
+  box-sizing: border-box;
 }
 
 .container6 {
@@ -64,10 +69,33 @@
   color: rgb(0, 166, 255);
   background:rgba(0, 166, 255, 0.078);
   border-radius: 30%;
+  cursor: pointer;
+}
+
+.container7 {
+  font-size: 120%;
 }
 
 .container8 {
-  font-size: 0.875rem;
+  font-size: 0.7rem;
+}
+
+.container84 {
+  font-size: 120%;
+}
+
+.container84:hover {
+  color: red;
+  cursor: pointer;
+}
+
+.container85 {
+  font-size: 120%;
+}
+
+.container85:hover {
+  color: rgb(47, 206, 255);
+  cursor: pointer;
 }
 
 .container9 {
@@ -76,17 +104,12 @@
   align-items: center;
 }
 
-.container10:hover {
-    width: 1.75rem; 
-  height: 1.75rem; 
-  padding: 0.25rem; 
+.container10 {
   color: #e91e63; 
 }
 
-.container11:hover {
-    width: 1.75rem; 
-    height: 1.75rem; 
-    padding: 0.25rem;
+.container11 {
+  font-size: 120%;
 }
 
 .container12 {

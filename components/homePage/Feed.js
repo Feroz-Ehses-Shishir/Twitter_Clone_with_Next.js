@@ -10,25 +10,18 @@ const Feed = () => {
   // const [state, dispatch] = useContext(AppContext);
   const [loading, setLoading] = useState(false);
 
-  const [state, dispatch] = useActionDispatcher([{
-    userID: {},
-    text: "",
-    image_url: "",
-    type: "",
-    parent: "",
-}]);
-  const [filename,setFileName] = useState();
+  const [state, dispatch] = useActionDispatcher([{}]);
 
   return (
     <div className={styles.container}>
       <div className={styles.container_2}>Home</div>
-      <Input setLoading={setLoading} dispatch={dispatch} setFileName={setFileName}/>
+      <Input setLoading={setLoading} dispatch={dispatch}/>
       {loading==false ? (
         <div className={styles.container_3}>Loading...</div>
       ) : (
         <div>
           {state?.map((post) => (
-            <Post key={post?._id} post={post} loading={loading} filename={filename}></Post>
+            <Post setLoading={setLoading} key={post?._id} post={post} dispatch={dispatch} loading={loading}></Post>
           ))}
         </div>
       )}
