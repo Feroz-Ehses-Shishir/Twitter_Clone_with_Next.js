@@ -37,7 +37,7 @@
     font-size: large;
   }
   
-  .img_container {
+  .img__container {
     position: relative;
     margin-bottom: 1rem;
   }
@@ -84,6 +84,10 @@
     font-size: 20px;
     color: #1d9bf0;
   }
+
+  /* .input_container2 input {
+    display: none;
+  } */
   
   .input_button {
     border-style: none;

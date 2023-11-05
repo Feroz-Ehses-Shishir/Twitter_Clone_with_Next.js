@@ -12,9 +12,10 @@ const Input = (props) => {
   const [input, setInput] = useState("");
   const [image, setImage] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
-  const fId = Math.floor((Math.random() * 100000) + 1);
 
   // const [,dispatch] = useContext(AppContext);
+
+  console.log("Input",selectedFile);
 
   useEffect(() => {
     props.dispatch(POST_ACTIONS.get);
@@ -38,7 +39,7 @@ const Input = (props) => {
       filename = await uploadAction(image);
     }
 
-    await props.dispatch(POST_ACTIONS.post,{id:session.user?.uid,input,filename:filename.data,type:"post",parent:"none",fId});
+    await props.dispatch(POST_ACTIONS.post,{id:session.user?.uid,input,filename:filename.data,type:"post",parent:"none"});
 
     setInput("");
     setSelectedFile(null);
@@ -73,10 +74,10 @@ const Input = (props) => {
           )}
           <div className={styles.input_container}>
             <div className={styles.input_container2}>
-              <label htmlFor="file">
+              <label htmlFor="file1">
                 <BsImage className={styles.cursor} />
               </label>
-              <input id="file" type="file" hidden onChange={addImageToPost} />
+              <input id="file1" type="file" hidden onChange={addImageToPost} />
             </div>
 
             <button className={styles.input_button} onClick={sendPost}>

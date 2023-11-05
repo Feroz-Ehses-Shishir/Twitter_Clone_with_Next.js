@@ -6,7 +6,6 @@ const postSchema = new Schema({
   image_url: { type: String },
   type: { type: String, required: true },
   parentId: { type: String, required: true },
-  fId : { type: String },
 });
 
 const post = models.post || model("post", postSchema);

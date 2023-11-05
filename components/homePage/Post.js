@@ -24,20 +24,14 @@ const Post = (props) => {
     isUser = props?.post?.userId;
   }
 
+  // console.log(props.post);
+
   const deletePost = async () =>{
-    await props.dispatch(POST_ACTIONS.DELETE,{id:props?.post?._id,fId:props?.post?.fId});
+    await props.dispatch(POST_ACTIONS.DELETE,{id:props?.post?._id});
   }
 
   const [comment, setComment] = useState(false);
   const [edit, setEdit] = useState(false);
-
-  const handleEdit = () => {
-    setEdit(true);
-  };
-
-  const closeModal = () => {
-    setEdit(false);
-  };
 
   return (
     <div key={props?.post?._id} className={styles.container}>
@@ -64,6 +58,7 @@ const Post = (props) => {
             <div
               onClick={() => {
                 setComment((prev) => !prev);
+                setEdit(false);
               }}
               className={styles.container6}
             >
@@ -108,18 +103,18 @@ const Post = (props) => {
             <AiOutlineShareAlt className={styles.container11} />
 
             {session.user?.uid == isUser && (
-              <div className={styles.container85}>
-                <BiCommentEdit
-                  onClick={handleEdit}
-                />
+              <div className={styles.container85} onClick={() => {
+                setEdit((prev) => !prev);
+                setComment(false);
+              }}>
+                <BiCommentEdit/>
               </div>
             )}
-            <Modal isOpen={edit} closeModal={closeModal}>
-              <Edit></Edit>
-           </Modal>
           </div>
         </div>
         {comment && <div></div>}
+        <div></div>
+        <div>{edit && <Edit text={props?.post?.text} selectedFile={props?.post?.image_url}></Edit>}</div>
       </div>
     </div>
   );

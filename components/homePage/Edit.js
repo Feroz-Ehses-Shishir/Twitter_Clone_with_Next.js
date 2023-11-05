@@ -9,9 +9,9 @@ import { useSession, signOut, getSession } from "next-auth/react";
 const Edit = (props) => {
 
     const { data: session } = useSession();
-    const [input, setInput] = useState("");
+    const [input, setInput] = useState(props.text);
     const [image, setImage] = useState(null);
-    const [selectedf, setSelectedFile] = useState(null);
+    const [selectedf, setSelectedF] = useState(props.selectedFile);
   
     // const [,dispatch] = useContext(AppContext);
   
@@ -20,27 +20,30 @@ const Edit = (props) => {
     //   props.setLoading(true);
     // }, []);
   
-    const addImageToPost = (e) => {
+    const addImage = (e) => {
+
+      console.log("hello");
       setImage(e.target.files[0]);
       const reader = new FileReader();
       if (e.target.files[0]) {
         reader.readAsDataURL(e.target.files[0]);
       }
       reader.onload = (readerEvent) => {
-        setSelectedFile(readerEvent.target.result);
+        setSelectedF(readerEvent.target.result);
       };
+
+      // console.log("Edit",selectedf);
     };
   
     const sendPost = async () => {
       let filename="/";
       if (image) {
-        filename = await uploadAction(image);
+        // filename = await uploadAction(image);
       }
   
     //   await props.dispatch(POST_ACTIONS.post,{input,filename:filename.data});
-  
       setInput("");
-      setSelectedFile(null);
+      setSelectedF(null);
     };
 
     return (
@@ -59,10 +62,10 @@ const Edit = (props) => {
               />
     
               {selectedf && (
-                <div className={styles.img_container}>
+                <div className={styles.img__container}>
                   <div
                     className={styles.img1}
-                    onClick={() => setSelectedFile(null)}
+                    onClick={() => setSelectedF(null)}
                   >
                     <AiOutlineClose className={styles.cross} />
                   </div>
@@ -72,10 +75,10 @@ const Edit = (props) => {
               )}
               <div className={styles.input_container}>
                 <div className={styles.input_container2}>
-                  <label htmlFor="file">
-                    <BsImage className={styles.cursor} />
+                  <label htmlFor="file2">
+                    <BsImage className={styles.cursor}/>
                   </label>
-                  <input id="file" type="file" hidden onChange={addImageToPost} />
+                  <input id="file2" type="file" hidden onChange={addImage}/>
                 </div>
     
                 <button className={styles.input_button} onClick={sendPost}>

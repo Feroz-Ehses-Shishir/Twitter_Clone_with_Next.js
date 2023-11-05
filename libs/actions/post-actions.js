@@ -2,32 +2,20 @@ import axios from "axios";
 
 export const POST_ACTIONS = {
   post: async (payload, state, dispatch) => {
-    await axios
+    const data = await axios
       .post(`/api/posts`, {
         userId: payload.id,
         text: payload.input,
         image_url: payload.filename,
         type: payload.type,
         parentId: payload.parent,
-        fId: payload.fId
-      })
-      .then((res) => {
-        return res;
-      })
-      .catch((err) => {
-        return err;
       });
+
+    console.log(data);
 
     return [
       ...state,
-      {
-        userId: payload.id,
-        text: payload.input,
-        image_url: payload.filename,
-        type: payload.type,
-        parentId: payload.parent,
-        fId: payload.fId
-      },
+      data.data
     ];
   },
 
@@ -37,8 +25,13 @@ export const POST_ACTIONS = {
   },
 
   DELETE: async (payload, state, dispatch) => {
-    const { data } = await axios.delete(`/api/posts/${payload.fId}`);
-    const updatedItems = await state.filter(item => item.fId !== payload.fId);
+    const { data } = await axios.delete(`/api/posts/${payload.id}`);
+    const updatedItems = await state.filter(item => item._id !== payload.id);
+    return updatedItems;
+  },
+  UPDATE: async (payload, state, dispatch) => {
+    const { data } = await axios.patch(`/api/posts/${payload.id}`);
+    const updatedItems = await state.filter(item => item._id !== payload.id);
     return updatedItems;
   },
 };
