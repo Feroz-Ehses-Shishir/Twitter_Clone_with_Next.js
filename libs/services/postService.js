@@ -6,6 +6,14 @@ const postService = async (req, res) => {
   await connectMongoDB();   
   try {
     const data = await post.create({ userId, text, image_url, type, parentId, fId });
+
+    if(type!=="post"){
+      const data2 = await post.updateOne(
+        { _id: parentId },
+        { $push: { comments: data._id } },
+     )
+    //  console.log(data2);
+    }
     res.status(200).send(data);
   } catch (err) {
     res.status(500).send({ err, msg: "Something went wrong!" });

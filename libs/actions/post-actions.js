@@ -11,8 +11,6 @@ export const POST_ACTIONS = {
         parentId: payload.parent,
       });
 
-    console.log(data);
-
     return [
       ...state,
       data.data
@@ -25,13 +23,35 @@ export const POST_ACTIONS = {
   },
 
   DELETE: async (payload, state, dispatch) => {
-    const { data } = await axios.delete(`/api/posts/${payload.id}`);
+    await axios.delete(`/api/posts/${payload.id}`);
     const updatedItems = await state.filter(item => item._id !== payload.id);
     return updatedItems;
   },
   UPDATE: async (payload, state, dispatch) => {
-    const { data } = await axios.patch(`/api/posts/${payload.id}`);
-    const updatedItems = await state.filter(item => item._id !== payload.id);
-    return updatedItems;
+    await axios.patch(`/api/posts/${payload.id}`,{text:payload.input,filename:payload.filename});
+    console.log(payload.type);
+    if(payload.type=="post"){
+      const updatedItems = await state.map(item => {
+        if(item._id === payload.id){
+          return {...item, text:payload.input,image_url:payload.filename};
+        }
+        return item;
+      })
+      return updatedItems;
+    }
+    else if(payload.type=="comment"){
+      const updatedItems = state.map((i) => {
+        return {
+          ...i,
+          comments: i.comments.map((j) => {
+            if (j._id === payload.id) {
+              return {...j, text:payload.input,image_url:payload.filename};
+            }
+            return j;
+          })
+        };
+      });
+      console.log(updatedItems);
+    }
   },
 };

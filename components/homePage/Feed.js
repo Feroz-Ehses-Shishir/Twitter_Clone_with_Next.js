@@ -12,18 +12,34 @@ const Feed = () => {
 
   const [state, dispatch] = useActionDispatcher([{}]);
 
+  const renderedItems = state?.map((post) => {
+    if (post.type == "post") {
+      return (
+        <Post
+          type="post"
+          setLoading={setLoading}
+          key={post?._id}
+          post={post}
+          dispatch={dispatch}
+          loading={loading}
+        ></Post>
+      );
+    }
+  });
+
   return (
     <div className={styles.container}>
       <div className={styles.container_2}>Home</div>
-      <Input setLoading={setLoading} dispatch={dispatch}/>
-      {loading==false ? (
+      <Input
+        parentId="none"
+        type="post"
+        setLoading={setLoading}
+        dispatch={dispatch}
+      />
+      {loading == false ? (
         <div className={styles.container_3}>Loading...</div>
       ) : (
-        <div>
-          {state?.map((post) => (
-            <Post setLoading={setLoading} key={post?._id} post={post} dispatch={dispatch} loading={loading}></Post>
-          ))}
-        </div>
+        <div>{renderedItems}</div>
       )}
     </div>
   );

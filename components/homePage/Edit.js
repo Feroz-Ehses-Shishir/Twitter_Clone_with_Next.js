@@ -13,16 +13,8 @@ const Edit = (props) => {
     const [image, setImage] = useState(null);
     const [selectedf, setSelectedF] = useState(props.selectedFile);
   
-    // const [,dispatch] = useContext(AppContext);
-  
-    // useEffect(() => {
-    //   props.dispatch(POST_ACTIONS.get);
-    //   props.setLoading(true);
-    // }, []);
-  
     const addImage = (e) => {
 
-      console.log("hello");
       setImage(e.target.files[0]);
       const reader = new FileReader();
       if (e.target.files[0]) {
@@ -31,19 +23,22 @@ const Edit = (props) => {
       reader.onload = (readerEvent) => {
         setSelectedF(readerEvent.target.result);
       };
-
-      // console.log("Edit",selectedf);
     };
   
     const sendPost = async () => {
       let filename="/";
       if (image) {
-        // filename = await uploadAction(image);
+        filename = await uploadAction(image);
+        filename = filename.data;
+      }
+      else{
+        filename = selectedf;
       }
   
-    //   await props.dispatch(POST_ACTIONS.post,{input,filename:filename.data});
+      await props.dispatch(POST_ACTIONS.UPDATE,{id:props.id,input,filename,type:props.type});
       setInput("");
       setSelectedF(null);
+      props.setEdit(false);
     };
 
     return (

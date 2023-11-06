@@ -8,8 +8,8 @@ import { BiCommentEdit } from "react-icons/bi";
 import { useState } from "react";
 import { POST_ACTIONS } from "../../libs/actions/post-actions";
 import { useActionDispatcher } from "../../hooks/use-action-dispatcher";
-import Modal from "../modal/Modal";
 import Edit from "./Edit";
+import Input from "./Input";
 
 const Post = (props) => {
   const { data: session } = useSession();
@@ -17,6 +17,7 @@ const Post = (props) => {
   let img = props?.post?.userId?.img;
   let url = props?.post?.image_url;
   let isUser = props?.post?.userId?._id;
+  let type = props?.type;
 
   if (user_name == undefined) {
     user_name = session?.user?.name;
@@ -24,14 +25,34 @@ const Post = (props) => {
     isUser = props?.post?.userId;
   }
 
-  // console.log(props.post);
-
-  const deletePost = async () =>{
-    await props.dispatch(POST_ACTIONS.DELETE,{id:props?.post?._id});
+  if (type == "post") {
+    type = "comment";
+  } else if (type == "comment") {
+    type = "reply";
   }
+
+  const deletePost = async () => {
+    await props.dispatch(POST_ACTIONS.DELETE, { id: props?.post?._id });
+  };
 
   const [comment, setComment] = useState(false);
   const [edit, setEdit] = useState(false);
+  
+  // console.log(`type ${type} -- ${props.post?.comments}`);
+
+  const renderedItems = props.post?.comments?.map((post) => {
+    if (post.type !== "post") {
+      return (
+        <Post
+          type={type}
+          post={post}
+          setLoading={props.setLoading}
+          key={post?._id}
+          dispatch={props.dispatch}
+        ></Post>
+      );
+    }
+  });
 
   return (
     <div key={props?.post?._id} className={styles.container}>
@@ -76,7 +97,6 @@ const Post = (props) => {
               />
             )}
 
-
             {/* like post */}
             <div
               className={styles.container9}
@@ -103,18 +123,46 @@ const Post = (props) => {
             <AiOutlineShareAlt className={styles.container11} />
 
             {session.user?.uid == isUser && (
-              <div className={styles.container85} onClick={() => {
-                setEdit((prev) => !prev);
-                setComment(false);
-              }}>
-                <BiCommentEdit/>
+              <div
+                className={styles.container85}
+                onClick={() => {
+                  setEdit((prev) => !prev);
+                  setComment(false);
+                }}
+              >
+                <BiCommentEdit />
               </div>
             )}
           </div>
         </div>
-        {comment && <div></div>}
         <div></div>
-        <div>{edit && <Edit text={props?.post?.text} selectedFile={props?.post?.image_url}></Edit>}</div>
+        {comment && (
+          <div>
+            <Input
+              type={type}
+              parentId={props?.post?._id}
+              setLoading={props.setLoading}
+              dispatch={props.dispatch}
+            />
+
+            <div>
+              {renderedItems}
+            </div>
+          </div>
+        )}
+
+        <div>
+          {edit && (
+            <Edit
+              setEdit={setEdit}
+              id={props?.post?._id}
+              text={props?.post?.text}
+              selectedFile={props?.post?.image_url}
+              dispatch={props.dispatch}
+              type={props.type}
+            ></Edit>
+          )}
+        </div>
       </div>
     </div>
   );
