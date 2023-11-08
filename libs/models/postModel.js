@@ -7,6 +7,7 @@ const postSchema = new Schema({
   type: { type: String, required: true },
   parentId: { type: String },
   comments: [{ type: Schema.Types.ObjectId, ref: 'post' }],
+  liked: [{ type: String }]
 });
 
 const post = models.post || model("post", postSchema);

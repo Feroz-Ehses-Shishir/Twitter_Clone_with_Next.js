@@ -6,6 +6,7 @@ import { BsImage } from "react-icons/bs";
 import uploadAction from "../../libs/actions/uploadAction";
 import { POST_ACTIONS } from "../../libs/actions/post-actions";
 import { AppContext } from "../../contexts/AppContext";
+import { spread } from "axios";
 
 const Input = (props) => {
   const { data: session } = useSession();
@@ -83,7 +84,7 @@ const Input = (props) => {
             </div>
 
             <button className={styles.input_button} onClick={sendPost}>
-              Tweet
+              {props.type=="post"?(<span>Post</span>):(<span>Reply</span>)}
             </button>
           </div>
         </div>

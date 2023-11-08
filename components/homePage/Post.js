@@ -32,13 +32,14 @@ const Post = (props) => {
   }
 
   const deletePost = async () => {
-    await props.dispatch(POST_ACTIONS.DELETE, { id: props?.post?._id });
+    await props.dispatch(POST_ACTIONS.DELETE, {
+      id: props?.post?._id,
+      type: props?.type,
+    });
   };
 
   const [comment, setComment] = useState(false);
   const [edit, setEdit] = useState(false);
-  
-  // console.log(`type ${type} -- ${props.post?.comments}`);
 
   const renderedItems = props.post?.comments?.map((post) => {
     if (post.type !== "post") {
@@ -49,6 +50,7 @@ const Post = (props) => {
           setLoading={props.setLoading}
           key={post?._id}
           dispatch={props.dispatch}
+          totalComments={post?.comments?.length}
         ></Post>
       );
     }
@@ -76,17 +78,22 @@ const Post = (props) => {
           <img className={styles.post_image} src={url} alt="" />
 
           <div className={styles.container5}>
-            <div
-              onClick={() => {
-                setComment((prev) => !prev);
-                setEdit(false);
-              }}
-              className={styles.container6}
-            >
-              <BsChat className={styles.container7} />
-              {/* comments.length */}
-              {1 > 0 && <span className={styles.container8}>{1}</span>}
-            </div>
+            {props.type !== "reply" && (
+              <div
+                onClick={() => {
+                  setComment((prev) => !prev);
+                  setEdit(false);
+                }}
+                className={styles.container6}
+              >
+                <BsChat className={styles.container7} />
+                {props.totalComments > 0 && (
+                  <span className={styles.container8}>
+                    {props.totalComments}
+                  </span>
+                )}
+              </div>
+            )}
 
             {session.user?.uid !== isUser ? (
               <FaRetweet className={styles.container7} />
@@ -145,9 +152,7 @@ const Post = (props) => {
               dispatch={props.dispatch}
             />
 
-            <div>
-              {renderedItems}
-            </div>
+            <div>{renderedItems}</div>
           </div>
         )}
 

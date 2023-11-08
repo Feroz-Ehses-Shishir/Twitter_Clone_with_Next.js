@@ -13,6 +13,11 @@ const Feed = () => {
   const [state, dispatch] = useActionDispatcher([{}]);
 
   const renderedItems = state?.map((post) => {
+    let totalcomments = post?.comments?.length;
+    for (let i = 0; i < post?.comments?.length; i++) {
+      totalcomments+= post?.comments[i].comments.length;
+    }
+
     if (post.type == "post") {
       return (
         <Post
@@ -22,6 +27,7 @@ const Feed = () => {
           post={post}
           dispatch={dispatch}
           loading={loading}
+          totalComments={totalcomments}
         ></Post>
       );
     }
