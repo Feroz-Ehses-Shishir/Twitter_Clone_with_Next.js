@@ -2,14 +2,22 @@ import { connectMongoDB } from "../MongoConnect";
 import post from "../models/postModel";
 
 const postGetService = async (req, res) => {
-  await connectMongoDB();   
+  await connectMongoDB();
+  const condition = { type: "post" };   
   try {
-    const data = await post.find().populate('userId').populate({
+    const data = await post.find(condition).populate('userId').populate({
       path: 'comments',
-      populate: {
+      populate: [{
         path: 'comments',
         model: 'post',
-      }
+        populate: {
+          path: 'userId',
+          model: 'user',
+        }
+      },{
+        path: 'userId',
+        model: 'user',
+      }]
     });
     res.status(200).send(data);
     return data;

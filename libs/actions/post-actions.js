@@ -11,10 +11,10 @@ export const POST_ACTIONS = {
         parentId: payload.parent,
       });
 
-    return [
-      ...state,
-      data.data
-    ];
+      return [
+        ...state,
+        data.data
+      ];
   },
 
   get: async (payload, state, dispatch) => {
@@ -29,7 +29,8 @@ export const POST_ACTIONS = {
   },
   UPDATE: async (payload, state, dispatch) => {
     await axios.patch(`/api/posts/${payload.id}`,{text:payload.input,filename:payload.filename});
-    console.log(payload.type);
+    // console.log(payload.type);
+    // console.log(state);
     if(payload.type=="post"){
       const updatedItems = await state.map(item => {
         if(item._id === payload.id){
@@ -51,7 +52,24 @@ export const POST_ACTIONS = {
           })
         };
       });
-      console.log(updatedItems);
+      return updatedItems;
+    }
+    else if(payload.type=="reply"){
+      const updatedItems = state.map((i) => {
+        return {
+          ...i,
+          comments: i.comments.map((j) => {
+              return {...j,           
+                comments: j.comments.map((k) => {
+                if (k._id === payload.id) {
+                  return {...k, text:payload.input,image_url:payload.filename};
+                }
+                return k;
+              })};
+          })
+        };
+      });
+      return updatedItems;
     }
   },
 };
