@@ -12,7 +12,6 @@ const postService = async (req, res) => {
         { _id: parentId },
         { $push: { comments: data._id } },
      )
-    //  console.log(data2);
     }
     res.status(200).send(data);
   } catch (err) {

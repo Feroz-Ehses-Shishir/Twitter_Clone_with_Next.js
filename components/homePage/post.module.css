@@ -67,7 +67,7 @@
 
 .container6:hover {
   color: rgb(0, 166, 255);
-  background:rgba(0, 166, 255, 0.078);
+  background:rgba(0, 166, 255, 0.164);
   border-radius: 30%;
   cursor: pointer;
 }
@@ -104,8 +104,22 @@
   align-items: center;
 }
 
-.container10 {
+.container9:hover {
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
   color: #e91e63; 
+  background: #e91e6225;
+  border-radius: 20%;
+}
+
+.container10 {
+  font-size: 120%;
+  color: #e91e63; 
+}
+
+.container16{
+  color: #e91e63;
 }
 
 .container11 {

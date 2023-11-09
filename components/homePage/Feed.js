@@ -1,6 +1,7 @@
 import styles from "./feed.module.css";
 import Input from "./Input";
 import Post from "./Post";
+import Follow from "./Follow";
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../contexts/AppContext";
 import { POST_ACTIONS } from "../../libs/actions/post-actions";
@@ -47,6 +48,7 @@ const Feed = () => {
       ) : (
         <div>{renderedItems}</div>
       )}
+      <Follow></Follow>
     </div>
   );
 };

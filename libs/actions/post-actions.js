@@ -11,13 +11,13 @@ export const POST_ACTIONS = {
     });
 
     if (payload.type == "post") {
-      return [...state, data.data];
+      return [data.data,...state];
     } else if (payload.type == "comment") {
       const updatedItems = state.map((i) => {
         if (i._id === data.data.parentId) {
           return {
             ...i,
-            comments: [...i.comments, data.data],
+            comments: [data.data,...i.comments],
           };
         }
         return i;
@@ -31,7 +31,7 @@ export const POST_ACTIONS = {
             if (j._id === data.data.parentId) {
               return {
                 ...j,
-                comments: [...j.comments, data.data],
+                comments: [data.data,...j.comments],
               };
             }
             return j;
@@ -82,8 +82,7 @@ export const POST_ACTIONS = {
       text: payload.input,
       filename: payload.filename,
     });
-    // console.log(payload.type);
-    // console.log(state);
+
     if (payload.type == "post") {
       const updatedItems = await state.map((item) => {
         if (item._id === payload.id) {
@@ -121,6 +120,71 @@ export const POST_ACTIONS = {
                   };
                 }
                 return k;
+              }),
+            };
+          }),
+        };
+      });
+      return updatedItems;
+    }
+  },
+  LIKE: async (payload, state, dispatch) => {
+    await axios.patch(`/api/posts/${payload.id}`, {
+      likedId: payload.likedId,
+      isLiked: payload.isLiked,
+    });
+
+    if (payload.type == "post") {
+      const updatedItems = await state.map((item) => {
+        if (item._id == payload.id) {
+          if(payload.isLiked==false){
+            return { ...item, liked: [...item.liked,payload.likedId] };
+          }
+          else{
+            const likes = item.liked.filter((item) => item !== payload.likedId);
+            return { ...item, liked: likes };
+          }
+        }
+        return item;
+      });
+      return updatedItems;
+    } else if (payload.type == "comment") {
+      const updatedItems = state.map((i) => {
+        return {
+          ...i,
+          comments: i.comments.map((item) => {
+            if (item._id == payload.id) {
+              if(payload.isLiked==false){
+                return { ...item, liked: [...item.liked,payload.likedId] };
+              }
+              else{
+                const likes = item.liked.filter((item) => item !== payload.likedId);
+                return { ...item, liked: likes };
+              }
+            }
+            return item;
+          }),
+        };
+      });
+      return updatedItems;
+    } else if (payload.type == "reply") {
+      const updatedItems = state.map((i) => {
+        return {
+          ...i,
+          comments: i.comments.map((j) => {
+            return {
+              ...j,
+              comments: j.comments.map((item) => {
+                if (item._id == payload.id) {
+                  if(payload.isLiked==false){
+                    return { ...item, liked: [...item.liked,payload.likedId] };
+                  }
+                  else{
+                    const likes = item.liked.filter((item) => item !== payload.likedId);
+                    return { ...item, liked: likes };
+                  }
+                }
+                return item;
               }),
             };
           }),

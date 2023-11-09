@@ -8,7 +8,7 @@ const postSchema = new Schema({
   parentId: { type: String },
   comments: [{ type: Schema.Types.ObjectId, ref: 'post' }],
   liked: [{ type: String }]
-});
+},{ timestamps: true });
 
 const post = models.post || model("post", postSchema);
 

@@ -10,6 +10,8 @@ import { POST_ACTIONS } from "../../libs/actions/post-actions";
 import { useActionDispatcher } from "../../hooks/use-action-dispatcher";
 import Edit from "./Edit";
 import Input from "./Input";
+import Moment from 'react-moment';
+
 
 const Post = (props) => {
   const { data: session } = useSession();
@@ -25,6 +27,13 @@ const Post = (props) => {
     isUser = props?.post?.userId;
   }
 
+  function extractAlphaSubstring(inputString) {
+    const match = inputString.match(/^[a-zA-Z]+/);
+    return match ? match[0] : '';
+  }
+
+  const shortName = extractAlphaSubstring(user_name);
+
   if (type == "post") {
     type = "comment";
   } else if (type == "comment") {
@@ -36,6 +45,18 @@ const Post = (props) => {
       id: props?.post?._id,
       type: props?.type,
     });
+  };
+
+  const [isLiked,setIsLiked] = useState(props?.post?.liked.includes(session?.user?.uid));
+
+  const likePost = async () => {
+    setIsLiked((prev) => !prev);
+    await props.dispatch(POST_ACTIONS.LIKE, {
+      id: props?.post?._id,
+      likedId: session?.user?.uid,
+      type: props?.type,
+      isLiked: isLiked
+    });  
   };
 
   const [comment, setComment] = useState(false);
@@ -68,9 +89,9 @@ const Post = (props) => {
             <p className={styles.container14}>{user_name}</p>
 
             <div className={styles.container4}>
-              <p>
-                {/* <Moment fromNow>{post?.timestamp?.toDate()}</Moment> */}
-                .&nbsp;&nbsp;just now
+              <p>@{shortName}&nbsp;&nbsp;-&nbsp;&nbsp;
+                <Moment fromNow>{props?.post?.createdAt}</Moment>
+                {/* {props?.post?.createdAt.toDate()} */}
               </p>
             </div>
           </div>
@@ -104,25 +125,20 @@ const Post = (props) => {
               />
             )}
 
-            {/* like post */}
             <div
               className={styles.container9}
-              onClick={(e) => {
-                e.stopPropagation();
-              }}
+              onClick={likePost}
             >
-              {/* liked */}
-              {false ? (
+              {isLiked ? (
                 <AiFillHeart className={styles.container10} />
               ) : (
                 <AiOutlineHeart className={styles.container11} />
               )}
-              {/* liked length */}
-              {1 > 0 && (
+              {props?.post?.liked.length > 0 && (
                 <span
-                  className={`${1 && styles.container8} ${styles.container8}`}
+                  className={`${isLiked && styles.container16} ${styles.container8}`}
                 >
-                  1
+                  {props?.post?.liked.length}
                 </span>
               )}
             </div>

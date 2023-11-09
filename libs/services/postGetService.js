@@ -18,7 +18,8 @@ const postGetService = async (req, res) => {
         path: 'userId',
         model: 'user',
       }]
-    });
+    }).sort({ createdAt: -1 });
+
     res.status(200).send(data);
     return data;
   } catch (err) {
