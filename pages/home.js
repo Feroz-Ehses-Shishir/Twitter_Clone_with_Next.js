@@ -2,6 +2,7 @@ import { useSession, signIn, signOut, getSession } from "next-auth/react";
 import styles from "../styles/homePage.module.css";
 import SideBar from "../components/homePage/Side-Bar";
 import Feed from "../components/homePage/Feed";
+import Follow from "../components/homePage/Follow";
 
 const Home = () => {
   return (
@@ -9,6 +10,7 @@ const Home = () => {
       <SideBar></SideBar>
       <div className={styles.feed_container}>
         <Feed/>
+        <Follow></Follow>
       </div>
     </div>
   );

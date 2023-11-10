@@ -1,5 +1,6 @@
 import { FiSearch } from "react-icons/fi"
 import styles from "./follow.module.css";
+import FollowList from "./FollowList";
 
 const Follow = () => {
     return (
@@ -8,19 +9,15 @@ const Follow = () => {
 
             <div className={styles.container1}>
                 <FiSearch />
-                <input className={styles.container2} type="text" placeholder='Search Twitter' />
+                <input className={styles.container2} type="text" placeholder='Search' />
             </div>
 
 
-            <div className='bg-[#16181C] rounded-[20px] text-white mt-4 px-4 py-4'>
-                <h1 className='text-[20px] font-medium'>What's Happening</h1>
-
-                {/* <TrendingList />
-                <TrendingList />
-                <TrendingList />
-                <TrendingList />
-                <TrendingList /> */}
-
+            <div className={styles.container3}>
+                <h1 className={styles.container4}>Who to Follow</h1>
+                <FollowList></FollowList>
+                <FollowList></FollowList>
+                <FollowList></FollowList>
             </div>
 
         </div>

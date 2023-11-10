@@ -1,5 +1,4 @@
 .container {
-  display: none;
   margin-top: 0.5rem;
   width: 350px;
 }
@@ -22,19 +21,30 @@
 }
 
 .container2 {
-  outline-style: none;
+  border: none;
+  outline: none;
   background-color: transparent;
   width: 100%;
+  color: #ffffff;
 }
 
-.container2 {
+.container3 {
+  border-radius: 15px;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-top: 1rem;
+  color: #ffffff;
+  background: #16181c;
 }
-.container2 {
+.container4 {
+  font-weight: 500; 
+  font-size: 20px;
 }
-.container2 {
-}
-@media (min-width: 1024px) {
+
+@media (max-width: 1080px) {
   .container {
-    display: block;
+    display: none;
   }
 }
