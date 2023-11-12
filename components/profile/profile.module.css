@@ -65,3 +65,70 @@
   object-fit: cover;
   border-radius: 100%;
 }
+
+.container7 {
+  border-bottom: 1px solid #2d3748;
+  padding-bottom: 1rem;
+}
+
+.container8 {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.5rem;
+}
+
+.container9 {
+  margin-top: 2rem; 
+  padding-left: 1rem; 
+  padding-right: 1rem;
+}
+
+.container10 {
+  display: flex;
+  flex-direction: column;
+}
+
+.container11 {
+  color: #fff; 
+  font-size: 1.5rem; 
+  font-weight: 600;
+}
+
+.container12 {
+  font-size: 1rem; 
+  color: #a0aec0;
+}
+
+.container13 {
+  display: flex;
+  flex-direction: column; 
+  margin-top: 1rem;
+}
+
+.container14 {
+  display: flex;
+  flex-direction: row; 
+  align-items: center; 
+  gap: 0.5rem; 
+  margin-top: 1rem; 
+  color: #a0aec0; 
+}
+
+.container15 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 1rem; /* Equivalent to mt-4 */
+  gap: 1.5rem;
+}
+
+.container16 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.25rem
+}
+
+.container17 {
+  color: #a0aec0;
+}

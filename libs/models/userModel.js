@@ -5,6 +5,10 @@ const userSchema = new Schema({
   email: { type: String, required: true },
   password: { type: String, required: true },
   img: { type: String},
+  cover: { type: String},
+  bio: { type: String},
+
+  
   verifyUser : {type: String},
 });
 
