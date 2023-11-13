@@ -5,13 +5,7 @@ export const AppContext = createContext();
 
 export const AppContextProvider = props => {
     
-    const [state, dispatch] = useActionDispatcher([{
-        userID: {},
-        text: "",
-        image_url: "",
-        type: "",
-        parent: "",
-    }]);
+    const [state, dispatch] = useActionDispatcher([{}]);
 
     return(
         <AppContext.Provider value={[state,dispatch]}>

@@ -6,11 +6,13 @@ import Profile from "../components/profile/Profile";
 import Follow from "../components/homePage/Follow";
 
 const profile = () => {
+   const { data: session } = useSession();
+
     return (
         <div className={styles.container}>
           <SideBar></SideBar>
           <div className={styles.feed_container}>
-            <Profile/>
+            <Profile id={session?.user?.uid}/>
             <Follow/>
           </div>
         </div>

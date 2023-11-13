@@ -7,10 +7,11 @@ const userSchema = new Schema({
   img: { type: String},
   cover: { type: String},
   bio: { type: String},
-
-  
+  following: [{ type: String }],
+  followers: [{ type: String }],
+  posts: [{ type: Schema.Types.ObjectId, ref: 'post' }],
   verifyUser : {type: String},
-});
+},{ timestamps: true });
 
 const user = models.user || model("user", userSchema);
 

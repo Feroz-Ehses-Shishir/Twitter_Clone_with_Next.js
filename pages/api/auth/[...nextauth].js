@@ -49,7 +49,7 @@ const authOptions = {
         connectMongoDB().catch((err) => {err: "connection failed";});
         const check = await users.findOne({ email: user.email });
         if (check == null) {
-          const data = await users.create({name: user.name,email: user.email,password: "-",img: user.image});
+          const data = await users.create({name: user.name,email: user.email,password: "-",img: user.image,cover: "/images/placeholder.jpg",bio: "-"});
         }
       }
       return true;

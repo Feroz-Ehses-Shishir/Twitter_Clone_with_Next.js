@@ -1,5 +1,6 @@
 import { connectMongoDB } from "../MongoConnect";
 import post from "../models/postModel";
+import user from "../models/userModel";
 
 const postService = async (req, res) => {
   const { userId, text, image_url, type, parentId, fId } = req.body;
@@ -11,6 +12,12 @@ const postService = async (req, res) => {
       const data2 = await post.updateOne(
         { _id: parentId },
         { $push: { comments: data._id } },
+     )
+    }
+    else{
+      const data2 = await user.updateOne(
+        { _id: userId },
+        { $push: { posts: data._id } },
      )
     }
     res.status(200).send(data);
