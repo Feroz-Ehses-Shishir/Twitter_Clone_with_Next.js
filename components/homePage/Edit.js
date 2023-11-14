@@ -45,7 +45,7 @@ const Edit = (props) => {
         <div className={styles.container}>
           <div className={styles.container2}>
             <div>
-              <img className={styles.img} src={session?.user?.image} alt="" />
+              <img className={styles.img} src={props?.user?.img} alt="" />
             </div>
             <div className={styles.container3}>
               <textarea

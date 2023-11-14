@@ -24,3 +24,14 @@ export const userActions = {
     }
   },
 };
+
+export const followUserActions = {
+  GET: async (payload, state, dispatch) => {
+    try {
+      const { data } = await axios.get(`/api/users/follow/${payload.Id}`);
+      return data;
+    } catch (err) {
+      console.log("error", err);
+    }
+  },
+};

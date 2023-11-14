@@ -22,17 +22,17 @@ const Post = (props) => {
   let type = props?.type;
 
   if (user_name == undefined) {
-    user_name = session?.user?.name;
-    img = session?.user?.image;
+    user_name = props?.user?.name;
+    img = props?.user?.img;
     isUser = props?.post?.userId;
   }
 
-  function extractAlphaSubstring(inputString) {
-    const match = inputString.match(/^[a-zA-Z]+/);
-    return match ? match[0] : '';
-  }
+  // function extractAlphaSubstring(inputString) {
+  //   const match = inputString.match(/^[a-zA-Z]+/);
+  //   return match ? match[0] : '';
+  // }
 
-  const shortName = extractAlphaSubstring(user_name);
+  // const shortName = extractAlphaSubstring(user_name);
 
   if (type == "post") {
     type = "comment";
@@ -47,13 +47,13 @@ const Post = (props) => {
     });
   };
 
-  const [isLiked,setIsLiked] = useState(props?.post?.liked.includes(session?.user?.uid));
+  const [isLiked,setIsLiked] = useState(props?.post?.liked?.includes(props?.user?._id));
 
   const likePost = async () => {
     setIsLiked((prev) => !prev);
     await props.dispatch(POST_ACTIONS.LIKE, {
       id: props?.post?._id,
-      likedId: session?.user?.uid,
+      likedId: props?.user?._id,
       type: props?.type,
       isLiked: isLiked
     });  
@@ -66,6 +66,7 @@ const Post = (props) => {
     if (post.type !== "post") {
       return (
         <Post
+          user={props?.user}
           type={type}
           post={post}
           setLoading={props.setLoading}
@@ -89,7 +90,7 @@ const Post = (props) => {
             <p className={styles.container14}>{user_name}</p>
 
             <div className={styles.container4}>
-              <p>@{shortName}&nbsp;&nbsp;-&nbsp;&nbsp;
+              <p>-&nbsp;&nbsp;
                 <Moment fromNow>{props?.post?.createdAt}</Moment>
                 {/* {props?.post?.createdAt.toDate()} */}
               </p>
@@ -116,7 +117,7 @@ const Post = (props) => {
               </div>
             )}
 
-            {session.user?.uid !== isUser ? (
+            {props.user?._id !== isUser ? (
               <FaRetweet className={styles.container7} />
             ) : (
               <RiDeleteBin5Line
@@ -134,18 +135,18 @@ const Post = (props) => {
               ) : (
                 <AiOutlineHeart className={styles.container11} />
               )}
-              {props?.post?.liked.length > 0 && (
+              {props?.post?.liked?.length > 0 && (
                 <span
                   className={`${isLiked && styles.container16} ${styles.container8}`}
                 >
-                  {props?.post?.liked.length}
+                  {props?.post?.liked?.length}
                 </span>
               )}
             </div>
 
             <AiOutlineShareAlt className={styles.container11} />
 
-            {session.user?.uid == isUser && (
+            {props.user?._id == isUser && (
               <div
                 className={styles.container85}
                 onClick={() => {
@@ -162,6 +163,7 @@ const Post = (props) => {
         {comment && (
           <div>
             <Input
+              user={props?.user}
               type={type}
               parentId={props?.post?._id}
               setLoading={props.setLoading}
@@ -175,6 +177,7 @@ const Post = (props) => {
         <div>
           {edit && (
             <Edit
+              user={props.user}
               setEdit={setEdit}
               id={props?.post?._id}
               text={props?.post?.text}

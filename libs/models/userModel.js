@@ -9,7 +9,7 @@ const userSchema = new Schema({
   bio: { type: String},
   following: [{ type: String }],
   followers: [{ type: String }],
-  posts: [{ type: Schema.Types.ObjectId, ref: 'post' }],
+  posts: [{ type: String }],
   verifyUser : {type: String},
 },{ timestamps: true });
 

@@ -7,12 +7,19 @@ import { HiOutlineClipboardList, HiOutlineDotsCircleHorizontal } from "react-ico
 import SideLink from "./Side-Link";
 import { useSession, signOut, getSession } from "next-auth/react";
 import Link from 'next/link';
+import { useRouter } from "next/router";
 
 const SideBar = () => {
 
   const { data: session } = useSession();
+  const router = useRouter();
 
-  // console.log(session.user);
+  const profile = () => {
+    router.push({
+      pathname: '/profile',
+      query: { id: session?.user?.uid },
+    });
+  }
 
   function handleSignOut() {
     signOut();
@@ -28,7 +35,7 @@ const SideBar = () => {
         <SideLink text="Messages" Icon={AiOutlineInbox} />
         <SideLink text="Bookmarks" Icon={BsBookmark} />
         <SideLink text="Lists" Icon={HiOutlineClipboardList} />
-        <Link href="/profile"><a><SideLink text="Profile" Icon={AiOutlineUser}/></a></Link>
+        <div onClick={profile}><SideLink  text="Profile" Icon={AiOutlineUser}/></div>
         <SideLink text="More" Icon={HiOutlineDotsCircleHorizontal} />
       </div>
       <button className={styles.tweet}>Tweet</button>

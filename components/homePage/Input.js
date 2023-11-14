@@ -42,7 +42,7 @@ const Input = (props) => {
       filename = await uploadAction(image);
     }
 
-    await props.dispatch(POST_ACTIONS.post,{id:session.user?.uid,input,filename:filename.data,type:props.type,parent:props.parentId});
+    await props.dispatch(POST_ACTIONS.post,{id:props.user?._id,input,filename:filename.data,type:props.type,parent:props.parentId});
 
     setInput("");
     setSelectedFile(null);
@@ -52,7 +52,7 @@ const Input = (props) => {
     <div className={styles.container}>
       <div className={styles.container_2}>
         <div>
-          <img className={styles.img} src={session?.user?.image} alt="" />
+          <img className={styles.img} src={props?.user?.img} alt="" />
         </div>
         <div className={styles.container_3}>
           <textarea

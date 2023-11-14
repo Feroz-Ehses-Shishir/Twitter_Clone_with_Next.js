@@ -5,10 +5,10 @@ export const AppContext = createContext();
 
 export const AppContextProvider = props => {
     
-    const [state, dispatch] = useActionDispatcher([{}]);
+    const [userState, userDispatch] = useActionDispatcher({});
 
     return(
-        <AppContext.Provider value={[state,dispatch]}>
+        <AppContext.Provider value={[userState, userDispatch]}>
             {props.children}
         </AppContext.Provider>
     )
