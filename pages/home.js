@@ -21,7 +21,7 @@ const Home = () => {
       <SideBar></SideBar>
       <div className={styles.feed_container}>
         <Feed/>
-        <Follow user={state}></Follow>
+        <Follow user={state} dispatch={dispatch}></Follow>
       </div>
     </div>
   );

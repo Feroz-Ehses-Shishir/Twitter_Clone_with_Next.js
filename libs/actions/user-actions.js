@@ -2,18 +2,33 @@ import axios from "axios";
 
 export const userActions = {
   UPDATE: async (payload, state, dispatch) => {
+    console.log(payload.follow);
     const { data } = await axios.patch(`/api/users/${payload.id}`, {
-        name: payload.name,
-        bio: payload.bio,
-        img: payload.img,
-        cover: payload.cover,
-      });
-    return {...state,
-        name: payload.name,
-        bio: payload.bio,
-        img: payload.img,
-        cover: payload.cover,
-      };
+      name: payload.name,
+      bio: payload.bio,
+      img: payload.img,
+      cover: payload.cover,
+      follow: payload.follow,
+      user_id: payload.user_id,
+    });
+    console.log(data);
+    // if (payload.follow !== undefined) {
+    //   if (!payload.follow) {
+    //     return { ...data, following: [...data?.following, payload.user_id] };
+    //   } else {
+    //     return {
+    //       ...data,
+    //       following: data?.following.filter((item) => item !== payload.user_id),
+    //     };
+    //   }
+    // }
+    return {
+      ...state,
+      name: payload.name,
+      bio: payload.bio,
+      img: payload.img,
+      cover: payload.cover,
+    };
   },
   GET_BY_ID: async (payload, state, dispatch) => {
     try {

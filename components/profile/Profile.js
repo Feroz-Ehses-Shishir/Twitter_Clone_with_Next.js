@@ -14,6 +14,8 @@ import { POST_ACTIONS } from "../../libs/actions/post-actions";
 const Profile = (props) => {
   const { data: session } = useSession();
   const [isOpenEdit, setIsOpenEdit] = useState(false);
+  const [follow,setFollow] = useState(props?.isFollow);
+  console.log(follow);
 
   const [postState, postDispatch] = useActionDispatcher();
 
@@ -40,6 +42,14 @@ const Profile = (props) => {
       );
     }
   });
+
+  const follow_unfollow = () => {
+    setFollow((prev) => !prev);
+  }
+
+  useEffect(() => {
+    props.dispatch(userActions.UPDATE,{id:session?.user?.uid,follow,user_id:props?.user._id,following:props?.user?.following});
+  }, [follow]);
 
   return (
     <div className={styles.container}>
@@ -74,7 +84,7 @@ const Profile = (props) => {
               </Modal>
             </div>
           ) : (
-            <button>Follow</button>
+            <div><button onClick={follow_unfollow} className={styles.btn}>{follow?(<span>Unfollow</span>):(<span>Follow</span>)}</button></div>
           )}
         </div>
         <div className={styles.container9}>

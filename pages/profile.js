@@ -28,7 +28,7 @@ const profile = () => {
           <SideBar></SideBar>
           <div className={styles.feed_container}>
             <Profile user={userState} dispatch={userDispatch}/>
-            <Follow user={state}/>
+            <Follow user={state} dispatch={userDispatch} isFollow={state?.followers?.includes(session?.user?.uid)}/>
           </div>
         </div>
       );

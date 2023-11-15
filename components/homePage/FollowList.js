@@ -3,11 +3,13 @@ import Image from "next/image";
 import { useSession, signOut, getSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { userActions } from "../../libs/actions/user-actions";
 
-const FollowList = ({ user }) => {
+const FollowList = ({ user,dispatch }) => {
+  const { data: session } = useSession();
   const router = useRouter();
   const [follow,setFollow] = useState(false);
-
+  
   const profile = () => {
     router.push({
       pathname: '/profile',
@@ -17,6 +19,7 @@ const FollowList = ({ user }) => {
 
   const follow_unfollow = () => {
     setFollow((prev) => !prev);
+    dispatch(userActions.UPDATE,{id:session?.user?.uid,follow,user_id:user._id,following:user?.following});
   }
 
   return (
