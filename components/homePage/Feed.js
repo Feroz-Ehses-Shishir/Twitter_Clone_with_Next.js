@@ -14,13 +14,13 @@ const Feed = () => {
   const { data: session } = useSession();
 
   const [state, dispatch] = useActionDispatcher([{}]);
-  const [userState, userDispatch] = useContext(AppContext);
+  const [userState, userDispatch] = useActionDispatcher();
   
   useEffect(() => {
     userDispatch(userActions.GET_BY_ID,{id:session?.user?.uid});
   }, []);
 
-  const renderedItems = state?.map((post) => {
+  const renderedItems = state?.map((post,j) => {
     let totalcomments = post?.comments?.length;
     for (let i = 0; i < post?.comments?.length; i++) {
       totalcomments+= post?.comments[i].comments.length;
@@ -31,7 +31,7 @@ const Feed = () => {
           user={userState}
           type="post"
           setLoading={setLoading}
-          key={post?._id}
+          key={j}
           post={post}
           dispatch={dispatch}
           loading={loading}

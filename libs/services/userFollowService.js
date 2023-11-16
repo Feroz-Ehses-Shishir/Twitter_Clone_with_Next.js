@@ -6,8 +6,8 @@ const userFollowService = async (req, res) => {
     try {
       await connectMongoDB();
       const userData = await user.findById(Id);
-      // userData.following.push(Id);
-      const data = await user.find({_id:{$nin:userData.following}});
+      userData.following.push(Id);
+      const data = await user.find({_id:{$nin:userData.following},verifyUser:{$nin:"No"}});
       res.status(200).send(data);
     } catch (err) {
       res.status(400).send({ err, msg: "Something went wrong!" });

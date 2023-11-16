@@ -20,15 +20,14 @@ const postUpdateService = async (req, res) => {
     }
     else{
       const userId = { _id: req.body.user_id };
-      let data;
       if (!req.body.follow) {
-        data = await user.updateOne(Id, { $push: { following: req.body.user_id } });
+        await user.updateOne(Id, { $push: { following: req.body.user_id } });
         await user.updateOne(userId, { $push: { followers: req.query.id } });
-        res.status(200).send(data);
+        res.status(200).send("follow");
       } else {
-        data = await user.updateOne(Id, { $pull: { following: req.body.user_id } });
+        await user.updateOne(Id, { $pull: { following: req.body.user_id } });
         await user.updateOne(userId, { $pull: { followers: req.query.id } });
-        res.status(200).send(data);
+        res.status(200).send("unfollow");
       }
     }
 

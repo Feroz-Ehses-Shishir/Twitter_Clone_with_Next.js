@@ -2,7 +2,6 @@ import axios from "axios";
 
 export const userActions = {
   UPDATE: async (payload, state, dispatch) => {
-    console.log(payload.follow);
     const { data } = await axios.patch(`/api/users/${payload.id}`, {
       name: payload.name,
       bio: payload.bio,
@@ -11,17 +10,33 @@ export const userActions = {
       follow: payload.follow,
       user_id: payload.user_id,
     });
-    console.log(data);
-    // if (payload.follow !== undefined) {
-    //   if (!payload.follow) {
-    //     return { ...data, following: [...data?.following, payload.user_id] };
-    //   } else {
-    //     return {
-    //       ...data,
-    //       following: data?.following.filter((item) => item !== payload.user_id),
-    //     };
-    //   }
-    // }
+
+    if (payload.follow !== undefined) {
+      if (payload.id == payload.profile_id) {
+        if (!payload.follow) {
+          return {
+            ...state,
+            following: [...state?.following, payload.user_id],
+          };
+        } else {
+          return {
+            ...state,
+            following: state?.following.filter(
+              (item) => item !== payload.user_id
+            ),
+          };
+        }
+      } else {
+        if (!payload.follow) {
+          return { ...state, followers: [...state?.followers, payload.id] };
+        } else {
+          return {
+            ...state,
+            followers: state?.followers.filter((item) => item !== payload.id),
+          };
+        }
+      }
+    }
     return {
       ...state,
       name: payload.name,
@@ -48,5 +63,30 @@ export const followUserActions = {
     } catch (err) {
       console.log("error", err);
     }
+  },
+  GET_FOLLOWING: async (payload, state, dispatch) => {
+    try {
+      const { data } = await axios.get(`/api/users/following`);
+      return data;
+    } catch (err) {
+      console.log("error", err);
+    }
+  },
+  GET_FOLLOWERS: async (payload, state, dispatch) => {
+    try {
+      const { data } = await axios.get(`/api/users/followers`);
+      return data;
+    } catch (err) {
+      console.log("error", err);
+    }
+  },
+  UPDATE: async (payload, state, dispatch) => {
+    dispatch(userActions.UPDATE, {
+      id: payload.id,
+      follow: payload.follow,
+      user_id: payload.user_id,
+      following: payload.following,
+      profile_id: payload.profile_id,
+    });
   },
 };

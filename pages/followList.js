@@ -9,8 +9,9 @@ import { AppContext } from "../contexts/AppContext";
 import { followUserActions, userActions } from "../libs/actions/user-actions";
 import { useActionDispatcher } from "../hooks/use-action-dispatcher";
 import { useRouter } from "next/router";
+import Following_Followers from "../components/profile/Following-Followers";
 
-const profile = () => {
+const followList = () => {
   const { data: session } = useSession();
   const [userState, userDispatch] = useActionDispatcher();
   const [state, dispatch] = useActionDispatcher();
@@ -21,37 +22,22 @@ const profile = () => {
   useEffect(() => {
     userDispatch(userActions.GET_BY_ID, { id: id });
     dispatch(followUserActions.GET, { Id: session?.user?.uid });
-  }, [id]);
+  }, []);
 
   return (
     <div className={styles.container}>
       <SideBar></SideBar>
       <div className={styles.feed_container}>
-        <Profile
-          user={userState}
+        <Following_Followers></Following_Followers>
+        <Follow
+          profile_id={id}
+          user={state}
           dispatch={userDispatch}
+          userdispatch={userDispatch}
         />
-        <Follow profile_id={id} user={state} dispatch={userDispatch} userdispatch={userDispatch}/>
       </div>
     </div>
   );
 };
 
-export async function getServerSideProps({ req }) {   
-  const session = await getSession({ req });
-
-  if (!session) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: { session },
-  };
-}
-
-export default profile;
+export default followList;
