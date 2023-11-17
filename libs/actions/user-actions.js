@@ -2,6 +2,9 @@ import axios from "axios";
 
 export const userActions = {
   UPDATE: async (payload, state, dispatch) => {
+    console.log(payload.follow);
+    console.log(payload.profile_id);
+    console.log(payload.id);
     const { data } = await axios.patch(`/api/users/${payload.id}`, {
       name: payload.name,
       bio: payload.bio,
@@ -64,17 +67,17 @@ export const followUserActions = {
       console.log("error", err);
     }
   },
-  GET_FOLLOWING: async (payload, state, dispatch) => {
+  GET_FOLLOWING_LIST: async (payload, state, dispatch) => {
     try {
-      const { data } = await axios.get(`/api/users/following`);
+      const { data } = await axios.get(`/api/users/following-list//${payload.Id}`);
       return data;
     } catch (err) {
       console.log("error", err);
     }
   },
-  GET_FOLLOWERS: async (payload, state, dispatch) => {
+  GET_FOLLOWERS_LIST: async (payload, state, dispatch) => {
     try {
-      const { data } = await axios.get(`/api/users/followers`);
+      const { data } = await axios.get(`/api/users/followers-list//${payload.Id}`);
       return data;
     } catch (err) {
       console.log("error", err);

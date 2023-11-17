@@ -4,7 +4,7 @@ import SideBar from "../components/homePage/Side-Bar";
 import Feed from "../components/homePage/Feed";
 import Profile from "../components/profile/Profile";
 import Follow from "../components/homePage/Follow";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../contexts/AppContext";
 import { followUserActions, userActions } from "../libs/actions/user-actions";
 import { useActionDispatcher } from "../hooks/use-action-dispatcher";
@@ -23,13 +23,17 @@ const profile = () => {
     dispatch(followUserActions.GET, { Id: session?.user?.uid });
   }, [id]);
 
+  const isFollow = userState?.followers?.includes(session?.user?.uid);
+
   return (
     <div className={styles.container}>
       <SideBar></SideBar>
       <div className={styles.feed_container}>
         <Profile
+          isFollow={isFollow}
           user={userState}
           dispatch={userDispatch}
+          profile_id={id}
         />
         <Follow profile_id={id} user={state} dispatch={userDispatch} userdispatch={userDispatch}/>
       </div>

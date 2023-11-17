@@ -1,12 +1,11 @@
 .container1 {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   gap: 1rem;
   padding: 0;
   border-radius: 10px;
-  padding-top: 10px;
-  padding-left: 10px;
-  padding-right: 40px;
+  padding: 10px;
   box-sizing: border-box;
 }
 
@@ -36,8 +35,9 @@
 }
 
 .container5 {
+  display: flex;
+  flex-direction: row;
   height: 3rem;
-  width: 3rem;
   border-radius: 9999px;
   transition: all 0.3s ease;
 }
@@ -54,21 +54,21 @@
   border-radius: 100%;
 }
 
+.container8{
+  margin-left: 10px;
+}
+
 .container7 {
   object-fit: cover;
   margin-top: 1.5%;
   box-sizing: border-box;
 }
 
-.container8 {
-  width: 150px;
-}
-
 .container7 button {
   border: none;
   outline: none;
   font-weight: bold;
-  margin-right: 10px;
+  margin-top: 2.5px;
   padding: 10px 12px;
   border-radius: 15px;
   cursor: pointer;

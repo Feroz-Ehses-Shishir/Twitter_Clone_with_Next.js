@@ -12,7 +12,7 @@ import Post from "../homePage/Post";
 import { POST_ACTIONS } from "../../libs/actions/post-actions";
 import { useRouter } from "next/router";
 
-const Profile = (props) => {
+const Profile = ({user,dispatch,isFollow,profile_id}) => {
   const { data: session } = useSession();
   const [isOpenEdit, setIsOpenEdit] = useState(false);
   const [postState, postDispatch] = useActionDispatcher();
@@ -28,10 +28,10 @@ const Profile = (props) => {
       totalcomments += post?.comments[i]?.comments?.length;
     }
 
-    if (props?.user?.posts?.includes(post?._id)) {
+    if (user?.posts?.includes(post?._id)) {
       return (
         <Post
-          user={props?.user}
+          user={user}
           type="post"
           key={post?._id}
           post={post}
@@ -43,42 +43,40 @@ const Profile = (props) => {
   });
 
   const follow_unfollow = () => {
-    props.dispatch(userActions.UPDATE, {
+    dispatch(userActions.UPDATE, {
       id: session?.user?.uid,
-      follow: props?.user?.followers?.includes(session?.user?.uid),
-      user_id: props?.user._id,
-      following: props?.user?.following,
-      profile_id: session?.user?.uid,
+      follow: isFollow,
+      user_id: user._id,
+      following: user?.following,
+      profile_id: profile_id,
     });
   };
 
-  const [show,setShow] = useState("Profile")
-
   const following = () => {
     router.push({
-      pathname: "/followList",
-      query: { id: props?.user._id },
+      pathname: "followList",
+      query: { id: user._id, type: "Following" },
     });
   };
 
   const followers = () => {
     router.push({
-      pathname: "/followers",
-      query: { id: props?.user._id },
+      pathname: "followList",
+      query: { id: user._id, type: "Followers" },
     });
   };
 
   return (
     <div className={styles.container}>
       <Link href="/home">
-        <div className={styles.container_2}>&#x2190; {props?.user?.name}</div>
+        <div className={styles.container_2}>&#x2190; {user?.name}</div>
       </Link>
       <div>
         <div className={styles.container1}>
-          <img src={props?.user?.cover} className={styles.container2} />
+          <img src={user?.cover} className={styles.container2} />
           <div className={styles.container3}>
             <div className={styles.container5}>
-              <img className={styles.container6} src={props?.user?.img} />
+              <img className={styles.container6} src={user?.img} />
             </div>
           </div>
         </div>
@@ -86,7 +84,7 @@ const Profile = (props) => {
 
       <div className={styles.container7}>
         <div className={styles.container8}>
-          {session?.user?.uid == props?.user?._id ? (
+          {session?.user?.uid == user?._id ? (
             <div>
               <button
                 className={styles.btn}
@@ -99,8 +97,8 @@ const Profile = (props) => {
                 closeModal={() => setIsOpenEdit(false)}
               >
                 <Edit
-                  dispatch={props.dispatch}
-                  state={props?.user}
+                  dispatch={dispatch}
+                  state={user}
                   setIsOpenEdit={setIsOpenEdit}
                 ></Edit>
               </Modal>
@@ -108,7 +106,7 @@ const Profile = (props) => {
           ) : (
             <div>
               <button onClick={follow_unfollow} className={styles.btn}>
-                {props?.user?.followers?.includes(session?.user?.uid) ? (
+                {isFollow ? (
                   <span>Unfollow</span>
                 ) : (
                   <span>Follow</span>
@@ -119,25 +117,25 @@ const Profile = (props) => {
         </div>
         <div className={styles.container9}>
           <div className={styles.container10}>
-            <div className={styles.container11}>{props?.user?.name}</div>
-            <div className={styles.container12}>@{props?.user?.name}</div>
+            <div className={styles.container11}>{user?.name}</div>
+            <div className={styles.container12}>@{user?.name}</div>
           </div>
           <div className={styles.container13}>
-            <div>{props?.user?.bio}</div>
+            <div>{user?.bio}</div>
             <div className={styles.container14}>
               <BiCalendar />
               <div>
-                Joined {moment(props?.user?.createdAt).format("Do MMMM, YYYY")}
+                Joined {moment(user?.createdAt).format("Do MMMM, YYYY")}
               </div>
             </div>
           </div>
           <div className={styles.container15}>
             <div onClick={following} className={styles.container16}>
-              <div>{props?.user?.following?.length}</div>
+              <div>{user?.following?.length}</div>
               <div className={styles.container17}>Following</div>
             </div>
             <div onClick={followers} className={styles.container16}>
-              <div>{props?.user?.followers?.length}</div>
+              <div>{user?.followers?.length}</div>
               <div className={styles.container17}>Followers</div>
             </div>
           </div>
