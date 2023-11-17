@@ -26,6 +26,7 @@ const Feed = () => {
       totalcomments+= post?.comments[i].comments.length;
     }
 
+    if(userState?.following?.includes(post?.userId?._id) || post?.userId?._id==session?.user?.uid){
       return (
         <Post
           user={userState}
@@ -38,6 +39,7 @@ const Feed = () => {
           totalComments={totalcomments}
         ></Post>
       );
+    }
   });
 
   return (

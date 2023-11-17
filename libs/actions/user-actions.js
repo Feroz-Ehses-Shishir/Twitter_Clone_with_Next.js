@@ -2,9 +2,6 @@ import axios from "axios";
 
 export const userActions = {
   UPDATE: async (payload, state, dispatch) => {
-    console.log(payload.follow);
-    console.log(payload.profile_id);
-    console.log(payload.id);
     const { data } = await axios.patch(`/api/users/${payload.id}`, {
       name: payload.name,
       bio: payload.bio,

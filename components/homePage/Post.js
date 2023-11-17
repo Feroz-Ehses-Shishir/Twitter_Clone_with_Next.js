@@ -12,7 +12,6 @@ import Edit from "./Edit";
 import Input from "./Input";
 import Moment from 'react-moment';
 
-
 const Post = (props) => {
   const { data: session } = useSession();
   let user_name = props?.post?.userId?.name;
@@ -26,13 +25,6 @@ const Post = (props) => {
     img = props?.user?.img;
     isUser = props?.post?.userId;
   }
-
-  // function extractAlphaSubstring(inputString) {
-  //   const match = inputString.match(/^[a-zA-Z]+/);
-  //   return match ? match[0] : '';
-  // }
-
-  // const shortName = extractAlphaSubstring(user_name);
 
   if (type == "post") {
     type = "comment";
@@ -92,7 +84,6 @@ const Post = (props) => {
             <div className={styles.container4}>
               <p>-&nbsp;&nbsp;
                 <Moment fromNow>{props?.post?.createdAt}</Moment>
-                {/* {props?.post?.createdAt.toDate()} */}
               </p>
             </div>
           </div>
