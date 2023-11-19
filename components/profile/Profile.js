@@ -19,7 +19,7 @@ const Profile = ({user,dispatch,isFollow,profile_id}) => {
   const router = useRouter();
 
   useEffect(() => {
-    postDispatch(POST_ACTIONS.get);
+    postDispatch(POST_ACTIONS.get,{id:session?.user?.uid});
   }, []);
 
   const renderedItems = postState?.map((post) => {

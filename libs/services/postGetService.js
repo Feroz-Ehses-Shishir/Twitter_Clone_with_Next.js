@@ -1,11 +1,14 @@
 import { connectMongoDB } from "../MongoConnect";
 import post from "../models/postModel";
+import user from "../models/userModel";
 
 const postGetService = async (req, res) => {
-  await connectMongoDB();
-  const condition = { type: "post" };   
+  const Id = req.query.id;   
   try {
-    const data = await post.find(condition).populate('userId').populate({
+    await connectMongoDB();
+    const userData = await user.findById(Id);
+    userData.following.push(Id);
+    const data = await post.find({type: "post",userId:{$in:userData.following}}).populate('userId').populate({
       path: 'comments',
       populate: [{
         path: 'comments',

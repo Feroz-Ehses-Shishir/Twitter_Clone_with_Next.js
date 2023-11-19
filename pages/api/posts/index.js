@@ -1,6 +1,5 @@
 import postService from "../../../libs/services/postService";
 import postValidate from "../../../libs/validates/postValidate";
-import postGetService from "../../../libs/services/postGetService";
 
 export default async function handler(req, res) {
   if (req.method == "POST") {
@@ -13,7 +12,5 @@ export default async function handler(req, res) {
     }
 
     return;
-  } else if (req.method == "GET") {
-    await postGetService(req,res);
-  }
+  } 
 }

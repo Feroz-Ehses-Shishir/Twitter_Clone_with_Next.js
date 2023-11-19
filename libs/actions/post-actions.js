@@ -43,7 +43,7 @@ export const POST_ACTIONS = {
   },
 
   get: async (payload, state, dispatch) => {
-    const { data } = await axios.get(`/api/posts`);
+    const { data } = await axios.get(`/api/posts/${payload.id}`);
     return data;
   },
 

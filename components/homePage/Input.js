@@ -20,7 +20,7 @@ const Input = (props) => {
 
   if(props.type=="post"){
     useEffect(() => {
-      props.dispatch(POST_ACTIONS.get);
+      props.dispatch(POST_ACTIONS.get,{id:session?.user?.uid});
       props.setLoading(true);
     }, []);
   }
