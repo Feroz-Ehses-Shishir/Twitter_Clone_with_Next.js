@@ -4,6 +4,7 @@ export const POST_ACTIONS = {
   post: async (payload, state, dispatch) => {
     const data = await axios.post(`/api/posts`, {
       userId: payload.id,
+      reTweetPostId: payload.reTweetPostId,
       text: payload.input,
       image_url: payload.filename,
       type: payload.type,
@@ -12,7 +13,30 @@ export const POST_ACTIONS = {
 
     if (payload.type == "post") {
       return [data.data,...state];
-    } else if (payload.type == "comment") {
+    }
+    else if (payload.type == "reTweet") {
+      const newData = data.data;
+      delete newData.reTweetPostId;
+      const reTweetPostId = { reTweetPostId : {
+        userId:payload.id,
+        text:payload.input,
+        image_url:payload.filename,
+        userId:{
+          img:payload.user_img,
+          name:payload.user_name,
+        }
+      },
+      userId:{
+        _id:payload.id,
+        name:payload.repost_user_name,
+      }
+      }
+     const combined = Object.assign({},newData,reTweetPostId);
+
+      // console.log(combined);
+      return [combined,...state];
+    }
+    else if (payload.type == "comment") {
       const updatedItems = state.map((i) => {
         if (i._id === data.data.parentId) {
           return {
@@ -50,7 +74,7 @@ export const POST_ACTIONS = {
   DELETE: async (payload, state, dispatch) => {
     await axios.delete(`/api/posts/${payload.id}`);
 
-    if (payload.type == "post") {
+    if (payload.type == "post" || payload.type == "reTweet") {
       const updatedItems = await state.filter((item) => item._id !== payload.id);
       return updatedItems;
     } 
@@ -83,7 +107,7 @@ export const POST_ACTIONS = {
       filename: payload.filename,
     });
 
-    if (payload.type == "post") {
+    if (payload.type == "post" || payload.type == "reTweet") {
       const updatedItems = await state.map((item) => {
         if (item._id === payload.id) {
           return { ...item, text: payload.input, image_url: payload.filename };
@@ -134,7 +158,7 @@ export const POST_ACTIONS = {
       isLiked: payload.isLiked,
     });
 
-    if (payload.type == "post") {
+    if (payload.type == "post" || payload.type == "reTweet") {
       const updatedItems = await state.map((item) => {
         if (item._id == payload.id) {
           if(payload.isLiked==false){

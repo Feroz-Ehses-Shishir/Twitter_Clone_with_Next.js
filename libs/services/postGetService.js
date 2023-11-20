@@ -7,8 +7,18 @@ const postGetService = async (req, res) => {
   try {
     await connectMongoDB();
     const userData = await user.findById(Id);
-    userData.following.push(Id);
-    const data = await post.find({type: "post",userId:{$in:userData.following}}).populate('userId').populate({
+    userData?.following?.push(Id);
+    const data = await post.find({$or:[{type: "post"},{type: "reTweet"}],userId:{$in:userData.following}}).populate({
+      path: 'reTweetPostId',
+      model: 'post',
+      populate: {
+        path: 'userId',
+        model: 'user',
+      }
+    }).populate({
+      path: 'userId',
+      model: 'user',
+    }).populate({
       path: 'comments',
       populate: [{
         path: 'comments',
@@ -22,7 +32,6 @@ const postGetService = async (req, res) => {
         model: 'user',
       }]
     }).sort({ createdAt: -1 });
-
     res.status(200).send(data);
     return data;
   } catch (err) {

@@ -50,7 +50,7 @@
   justify-content: space-between;
   flex-direction: row;
   /* align-items:baseline; */
-  align-items: center;
+  align-items: flex-start;
   font-size: 16px;
   margin-top: 1rem;
   width: 95%;
@@ -67,13 +67,18 @@
 
 .container6:hover {
   color: rgb(0, 166, 255);
-  background:rgba(0, 166, 255, 0.164);
+  background:rgba(0, 166, 255, 0.057);
   border-radius: 30%;
   cursor: pointer;
 }
 
 .container7 {
   font-size: 120%;
+  cursor: pointer;
+}
+
+.container7:hover {
+  color: #4ec26f;
 }
 
 .container8 {
@@ -134,10 +139,15 @@
     font-size: 0.875rem;
 }
 
-/* .container14:hover {
-  text-decoration: underline;
-} */
-
 .container15{
   width: 100%;
+}
+
+.reTweet{
+  display: flex;
+  gap: 2%;
+  margin-bottom: 3%;
+  margin-left: 6.5%;
+  align-items: flex-end;
+  color: #808080;
 }

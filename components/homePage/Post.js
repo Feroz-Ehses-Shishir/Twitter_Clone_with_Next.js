@@ -10,7 +10,7 @@ import { POST_ACTIONS } from "../../libs/actions/post-actions";
 import { useActionDispatcher } from "../../hooks/use-action-dispatcher";
 import Edit from "./Edit";
 import Input from "./Input";
-import Moment from 'react-moment';
+import Moment from "react-moment";
 
 const Post = (props) => {
   const { data: session } = useSession();
@@ -19,12 +19,15 @@ const Post = (props) => {
   let url = props?.post?.image_url;
   let isUser = props?.post?.userId?._id;
   let type = props?.type;
+  let text = props?.post?.text;
 
   if (user_name == undefined) {
     user_name = props?.user?.name;
     img = props?.user?.img;
     isUser = props?.post?.userId;
   }
+
+  // console.log(props?.post);
 
   if (type == "post") {
     type = "comment";
@@ -39,7 +42,9 @@ const Post = (props) => {
     });
   };
 
-  const [isLiked,setIsLiked] = useState(props?.post?.liked?.includes(props?.user?._id));
+  const [isLiked, setIsLiked] = useState(
+    props?.post?.liked?.includes(props?.user?._id)
+  );
 
   const likePost = async () => {
     setIsLiked((prev) => !prev);
@@ -47,8 +52,8 @@ const Post = (props) => {
       id: props?.post?._id,
       likedId: props?.user?._id,
       type: props?.type,
-      isLiked: isLiked
-    });  
+      isLiked: isLiked,
+    });
   };
 
   const [comment, setComment] = useState(false);
@@ -70,8 +75,30 @@ const Post = (props) => {
     }
   });
 
+  const reTweet = async () => {
+    await props.dispatch(POST_ACTIONS.post, {
+      id: props.user?._id,
+      reTweetPostId: props?.post?._id,
+      input: props?.post?.text,
+      filename: props?.post?.image_url,
+      type: "reTweet",
+      parent: props.parentId,
+      user_img: props?.post?.userId?.img,
+      user_name: props?.post?.userId?.name,
+      repost_user_name:props?.user?.name,
+    });
+  };
+
+  if(props?.post?.type=="reTweet"){
+    img = props?.post?.reTweetPostId?.userId?.img;
+    user_name = props?.post?.reTweetPostId?.userId?.name;
+    text = props?.post?.reTweetPostId?.text;
+    url = props?.post?.reTweetPostId?.image_url;
+  }
+
   return (
     <div key={props?.post?._id} className={styles.container}>
+      {props?.post?.type=="reTweet" && <div className={styles.reTweet}><FaRetweet/>{props?.post?.userId?._id==session?.user?.uid ?(<div>You reposted</div>):(<div>{props?.post?.userId?.name} reposted</div>)}</div> }
       <div className={styles.container_2}>
         <div>
           <img className={styles.imgg} src={img} alt="" />
@@ -82,12 +109,13 @@ const Post = (props) => {
             <p className={styles.container14}>{user_name}</p>
 
             <div className={styles.container4}>
-              <p>-&nbsp;&nbsp;
+              <p>
+                -&nbsp;&nbsp;
                 <Moment fromNow>{props?.post?.createdAt}</Moment>
               </p>
             </div>
           </div>
-          <p>{props?.post?.text}</p>
+          <p>{text}</p>
           <img className={styles.post_image} src={url} alt="" />
 
           <div className={styles.container5}>
@@ -99,7 +127,7 @@ const Post = (props) => {
                 }}
                 className={styles.container6}
               >
-                <BsChat className={styles.container7} />
+                <BsChat className={styles.container6} />
                 {props.totalComments > 0 && (
                   <span className={styles.container8}>
                     {props.totalComments}
@@ -109,7 +137,7 @@ const Post = (props) => {
             )}
 
             {props.user?._id !== isUser ? (
-              <FaRetweet className={styles.container7} />
+              <FaRetweet onClick={reTweet} className={styles.container7} />
             ) : (
               <RiDeleteBin5Line
                 className={styles.container84}
@@ -117,10 +145,7 @@ const Post = (props) => {
               />
             )}
 
-            <div
-              className={styles.container9}
-              onClick={likePost}
-            >
+            <div className={styles.container9} onClick={likePost}>
               {isLiked ? (
                 <AiFillHeart className={styles.container10} />
               ) : (
@@ -128,7 +153,9 @@ const Post = (props) => {
               )}
               {props?.post?.liked?.length > 0 && (
                 <span
-                  className={`${isLiked && styles.container16} ${styles.container8}`}
+                  className={`${isLiked && styles.container16} ${
+                    styles.container8
+                  }`}
                 >
                   {props?.post?.liked?.length}
                 </span>
@@ -137,7 +164,7 @@ const Post = (props) => {
 
             <AiOutlineShareAlt className={styles.container11} />
 
-            {props.user?._id == isUser && (
+            {props.user?._id == isUser && props?.post?.type!=="reTweet"? (
               <div
                 className={styles.container85}
                 onClick={() => {
@@ -147,7 +174,7 @@ const Post = (props) => {
               >
                 <BiCommentEdit />
               </div>
-            )}
+            ):<></>}
           </div>
         </div>
         <div></div>
