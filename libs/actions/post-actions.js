@@ -1,4 +1,5 @@
 import axios from "axios";
+import { BsCheckLg } from "react-icons/bs";
 
 export const POST_ACTIONS = {
   post: async (payload, state, dispatch) => {
@@ -22,6 +23,7 @@ export const POST_ACTIONS = {
         text:payload.input,
         image_url:payload.filename,
         userId:{
+          _id:payload.main_user_id,
           img:payload.user_img,
           name:payload.user_name,
         }
@@ -67,12 +69,28 @@ export const POST_ACTIONS = {
   },
 
   get: async (payload, state, dispatch) => {
-    const { data } = await axios.get(`/api/posts/${payload.id}`);
-    return data;
+    const { data } = await axios.get(`/api/posts/home?id=${payload.id}&page=${payload.page}`);
+
+    if(payload.page==0){
+      return data;
+    }
+    else{
+      return [...state,...data];
+    }
+  },
+
+  GET_BY_PROFILE: async (payload, state, dispatch) => {
+    const { data } = await axios.get(`/api/posts/profile?id=${payload.id}&page=${payload.page}`);
+    if(payload.page==0){
+      return data;
+    }
+    else{
+      return [...state,...data];
+    }
   },
 
   DELETE: async (payload, state, dispatch) => {
-    await axios.delete(`/api/posts/${payload.id}`);
+    await axios.delete(`/api/posts/home?id=${payload.id}`);
 
     if (payload.type == "post" || payload.type == "reTweet") {
       const updatedItems = await state.filter((item) => item._id !== payload.id);
@@ -102,7 +120,7 @@ export const POST_ACTIONS = {
     }
   },
   UPDATE: async (payload, state, dispatch) => {
-    await axios.patch(`/api/posts/${payload.id}`, {
+    await axios.patch(`/api/posts/home?id=${payload.id}`, {
       text: payload.input,
       filename: payload.filename,
     });
@@ -153,7 +171,7 @@ export const POST_ACTIONS = {
     }
   },
   LIKE: async (payload, state, dispatch) => {
-    await axios.patch(`/api/posts/${payload.id}`, {
+    await axios.patch(`/api/posts/home?id=${payload.id}`, {
       likedId: payload.likedId,
       isLiked: payload.isLiked,
     });

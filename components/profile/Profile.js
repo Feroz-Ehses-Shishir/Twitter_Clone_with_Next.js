@@ -12,34 +12,31 @@ import Post from "../homePage/Post";
 import { POST_ACTIONS } from "../../libs/actions/post-actions";
 import { useRouter } from "next/router";
 
-const Profile = ({user,dispatch,isFollow,profile_id}) => {
+const Profile = ({ user, dispatch, isFollow, profile_id, page, setPage }) => {
   const { data: session } = useSession();
   const [isOpenEdit, setIsOpenEdit] = useState(false);
   const [postState, postDispatch] = useActionDispatcher();
   const router = useRouter();
 
   useEffect(() => {
-    postDispatch(POST_ACTIONS.get,{id:session?.user?.uid});
-  }, []);
+    postDispatch(POST_ACTIONS.GET_BY_PROFILE, { id: profile_id,page:page });
+  }, [profile_id,page]);
 
   const renderedItems = postState?.map((post) => {
     let totalcomments = post?.comments?.length;
     for (let i = 0; i < post?.comments?.length; i++) {
       totalcomments += post?.comments[i]?.comments?.length;
     }
-
-    if (user?.posts?.includes(post?._id)) {
-      return (
-        <Post
-          user={user}
-          type="post"
-          key={post?._id}
-          post={post}
-          dispatch={postDispatch}
-          totalComments={totalcomments}
-        ></Post>
-      );
-    }
+    return (
+      <Post
+        user={user}
+        type="post"
+        key={post?._id}
+        post={post}
+        dispatch={postDispatch}
+        totalComments={totalcomments}
+      ></Post>
+    );
   });
 
   const follow_unfollow = () => {
@@ -65,6 +62,10 @@ const Profile = ({user,dispatch,isFollow,profile_id}) => {
       query: { id: user._id, type: "Followers" },
     });
   };
+
+  const pageHandle = () => {
+    setPage((prev) => prev+1);
+  }
 
   return (
     <div className={styles.container}>
@@ -106,11 +107,7 @@ const Profile = ({user,dispatch,isFollow,profile_id}) => {
           ) : (
             <div>
               <button onClick={follow_unfollow} className={styles.btn}>
-                {isFollow ? (
-                  <span>Unfollow</span>
-                ) : (
-                  <span>Follow</span>
-                )}
+                {isFollow ? <span>Unfollow</span> : <span>Follow</span>}
               </button>
             </div>
           )}
@@ -142,7 +139,9 @@ const Profile = ({user,dispatch,isFollow,profile_id}) => {
         </div>
       </div>
       {renderedItems}
+      <div className={styles.btn1} onClick={pageHandle}>show more</div>
     </div>
+    
   );
 };
 

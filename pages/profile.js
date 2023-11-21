@@ -14,13 +14,17 @@ const profile = () => {
   const { data: session } = useSession();
   const [userState, userDispatch] = useActionDispatcher();
   const [state, dispatch] = useActionDispatcher();
+  const [page,setPage] = useState(0);
 
   const router = useRouter();
   const id = router.query.id;
 
+  const [profile_id,setProfile_id] = useState(id);
+
   useEffect(() => {
     userDispatch(userActions.GET_BY_ID, { id: id });
     dispatch(followUserActions.GET, { Id: session?.user?.uid });
+    setPage(0);
   }, [id]);
 
   const isFollow = userState?.followers?.includes(session?.user?.uid);
@@ -34,8 +38,10 @@ const profile = () => {
           user={userState}
           dispatch={userDispatch}
           profile_id={id}
+          page={page}
+          setPage={setPage}
         />
-        <Follow profile_id={id} user={state} dispatch={userDispatch} userdispatch={userDispatch}/>
+        <Follow profile_id={profile_id} user={state} dispatch={userDispatch} userdispatch={userDispatch}/>
       </div>
     </div>
   );

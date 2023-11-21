@@ -151,3 +151,16 @@
 .btn:hover {
   background: #ffffff1b;
 }
+
+.btn1{
+  border-style: none;
+  padding-top: 0.375rem;
+  padding-bottom: 0.375rem; 
+  padding-left: 1rem;
+  padding-right: 1rem; 
+  border-radius: 10px;
+  background: inherit;
+  color:rgb(107, 107, 107);
+  text-align: center;
+  cursor: pointer;
+}

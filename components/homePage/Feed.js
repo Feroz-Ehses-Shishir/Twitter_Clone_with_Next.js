@@ -15,6 +15,7 @@ const Feed = () => {
 
   const [state, dispatch] = useActionDispatcher([{}]);
   const [userState, userDispatch] = useActionDispatcher();
+  const [page,setPage] = useState(0);
   
   useEffect(() => {
     userDispatch(userActions.GET_BY_ID,{id:session?.user?.uid});
@@ -39,6 +40,10 @@ const Feed = () => {
       );
   });
 
+  const pageHandle = () => {
+    setPage((prev) => prev+1);
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.container_2}>Home</div>
@@ -48,12 +53,14 @@ const Feed = () => {
         type="post"
         setLoading={setLoading}
         dispatch={dispatch}
+        page={page}
       />
-      {loading == false ? (
+      {loading == false? (
         <div className={styles.container_3}>Loading...</div>
       ) : (
         <div>{renderedItems}</div>
       )}
+      <div className={styles.btn} onClick={pageHandle}>show more</div>
     </div>
   );
 };

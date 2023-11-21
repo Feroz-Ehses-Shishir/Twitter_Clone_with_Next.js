@@ -11,6 +11,7 @@ import { useActionDispatcher } from "../../hooks/use-action-dispatcher";
 import Edit from "./Edit";
 import Input from "./Input";
 import Moment from "react-moment";
+import { useRouter } from "next/router";
 
 const Post = (props) => {
   const { data: session } = useSession();
@@ -26,8 +27,6 @@ const Post = (props) => {
     img = props?.user?.img;
     isUser = props?.post?.userId;
   }
-
-  // console.log(props?.post);
 
   if (type == "post") {
     type = "comment";
@@ -45,6 +44,11 @@ const Post = (props) => {
   const [isLiked, setIsLiked] = useState(
     props?.post?.liked?.includes(props?.user?._id)
   );
+
+  // console.log(isLiked);
+  // console.log(props?.post?.text);
+  // console.log(props?.post?.liked);
+  // console.log(props?.user?._id);
 
   const likePost = async () => {
     setIsLiked((prev) => !prev);
@@ -86,6 +90,7 @@ const Post = (props) => {
       user_img: props?.post?.userId?.img,
       user_name: props?.post?.userId?.name,
       repost_user_name:props?.user?.name,
+      main_user_id:props?.post?.userId?._id
     });
   };
 
@@ -95,6 +100,22 @@ const Post = (props) => {
     text = props?.post?.reTweetPostId?.text;
     url = props?.post?.reTweetPostId?.image_url;
   }
+
+  const router = useRouter();
+  const profile = () => {
+    if(props?.post?.type=="reTweet"){
+      router.push({
+        pathname: "/profile",
+        query: { id: props?.post?.reTweetPostId?.userId?._id},
+      });
+    }
+    else{
+      router.push({
+        pathname: "/profile",
+        query: { id: props?.post?.userId?._id },
+      });
+    }
+  };
 
   return (
     <div key={props?.post?._id} className={styles.container}>
@@ -106,7 +127,7 @@ const Post = (props) => {
 
         <div>
           <div className={styles.container3}>
-            <p className={styles.container14}>{user_name}</p>
+            <p onClick={profile} className={styles.container14}>{user_name}</p>
 
             <div className={styles.container4}>
               <p>

@@ -18,11 +18,15 @@ const Input = (props) => {
 
   // console.log("Input",selectedFile);
 
+  const ff = async () => {
+    await props.dispatch(POST_ACTIONS.get,{id:session?.user?.uid,page:props.page});
+  }
+
   if(props.type=="post"){
     useEffect(() => {
-      props.dispatch(POST_ACTIONS.get,{id:session?.user?.uid});
+      ff();
       props.setLoading(true);
-    }, []);
+    }, [props.page]);
   }
 
   const addImageToPost = (e) => {
