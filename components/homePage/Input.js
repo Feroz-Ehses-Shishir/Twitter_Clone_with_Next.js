@@ -24,8 +24,12 @@ const Input = (props) => {
 
   if(props.type=="post"){
     useEffect(() => {
-      ff();
-      props.setLoading(true);
+      if(1){
+        ff();
+      }
+      if(props.state!==undefined){
+        props.setLoading(true);
+      }
     }, [props.page]);
   }
 
@@ -81,10 +85,10 @@ const Input = (props) => {
           )}
           <div className={styles.input_container}>
             <div className={styles.input_container2}>
-              <label htmlFor="file1">
+              <label htmlFor={props.type}>
                 <BsImage className={styles.cursor} />
               </label>
-              <input id="file1" type="file" hidden onChange={addImageToPost} />
+              <input id={props.type} type="file" hidden onChange={addImageToPost} />
             </div>
 
             <button className={styles.input_button} onClick={sendPost}>

@@ -9,23 +9,26 @@ import { userActions } from "../../libs/actions/user-actions";
 import { useSession } from "next-auth/react";
 
 const Feed = () => {
-  
   const [loading, setLoading] = useState(false);
   const { data: session } = useSession();
 
-  const [state, dispatch] = useActionDispatcher([{}]);
+  const [state, dispatch] = useActionDispatcher();
   const [userState, userDispatch] = useActionDispatcher();
-  const [page,setPage] = useState(0);
-  
+
+  const [isFinish, setIsFinish] = useState(false);
+  const [page, setPage] = useState(0);
+
   useEffect(() => {
-    userDispatch(userActions.GET_BY_ID,{id:session?.user?.uid});
+    userDispatch(userActions.GET_BY_ID, { id: session?.user?.uid });
   }, []);
 
-  const renderedItems = state?.map((post,j) => {
+  const renderedItems = state?.map((post, j) => {
     let totalcomments = post?.comments?.length;
     for (let i = 0; i < post?.comments?.length; i++) {
-      totalcomments+= post?.comments[i].comments.length;
+      totalcomments += post?.comments[i].comments.length;
     }
+    
+    if(post!==undefined){
       return (
         <Post
           user={userState}
@@ -36,13 +39,15 @@ const Feed = () => {
           dispatch={dispatch}
           loading={loading}
           totalComments={totalcomments}
+          setIsFinish={setIsFinish}
         ></Post>
       );
+    }
   });
 
   const pageHandle = () => {
-    setPage((prev) => prev+1);
-  }
+    setPage((prev) => prev + 1);
+  };
 
   return (
     <div className={styles.container}>
@@ -54,13 +59,22 @@ const Feed = () => {
         setLoading={setLoading}
         dispatch={dispatch}
         page={page}
+        state={state}
       />
-      {loading == false? (
+      {loading == false && state == undefined ? (
         <div className={styles.container_3}>Loading...</div>
       ) : (
-        <div>{renderedItems}</div>
+        <>
+          <div>{renderedItems}</div>
+          {isFinish ? (
+            <div className={styles.btn}>no more posts</div>
+          ) : (
+            <div className={styles.btn} onClick={pageHandle}>
+              show more
+            </div>
+          )}
+        </>
       )}
-      <div className={styles.btn} onClick={pageHandle}>show more</div>
     </div>
   );
 };

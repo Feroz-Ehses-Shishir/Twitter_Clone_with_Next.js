@@ -1,5 +1,4 @@
 import axios from "axios";
-import { BsCheckLg } from "react-icons/bs";
 
 export const POST_ACTIONS = {
   post: async (payload, state, dispatch) => {
@@ -70,12 +69,17 @@ export const POST_ACTIONS = {
 
   get: async (payload, state, dispatch) => {
     const { data } = await axios.get(`/api/posts/home?id=${payload.id}&page=${payload.page}`);
-
+    
     if(payload.page==0){
       return data;
     }
     else{
-      return [...state,...data];
+      if(data.length==0){
+        return [...state,"finish"];
+      }
+      else{
+        return [...state,...data];
+      }
     }
   },
 
@@ -85,7 +89,12 @@ export const POST_ACTIONS = {
       return data;
     }
     else{
-      return [...state,...data];
+      if(data.length==0){
+        return [...state,"finish"];
+      }
+      else{
+        return [...state,...data];
+      }
     }
   },
 

@@ -6,6 +6,7 @@ const postGetService = async (req, res) => {
   const Id = req.query.id;
   const page = req.query.page;
   const postsPerPage = 3;
+  
   try {
     await connectMongoDB();
     const userData = await user.findById(Id);

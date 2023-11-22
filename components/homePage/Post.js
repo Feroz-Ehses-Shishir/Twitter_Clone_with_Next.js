@@ -5,7 +5,7 @@ import { FaRetweet } from "react-icons/fa6";
 import { AiOutlineHeart, AiOutlineShareAlt, AiFillHeart } from "react-icons/ai";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { BiCommentEdit } from "react-icons/bi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { POST_ACTIONS } from "../../libs/actions/post-actions";
 import { useActionDispatcher } from "../../hooks/use-action-dispatcher";
 import Edit from "./Edit";
@@ -21,6 +21,12 @@ const Post = (props) => {
   let isUser = props?.post?.userId?._id;
   let type = props?.type;
   let text = props?.post?.text;
+
+  useEffect(() => {
+    if (props.post == "finish") {
+      props.setIsFinish(true);
+    }
+  }, []);
 
   if (user_name == undefined) {
     user_name = props?.user?.name;
@@ -41,14 +47,11 @@ const Post = (props) => {
     });
   };
 
-  const [isLiked, setIsLiked] = useState(
-    props?.post?.liked?.includes(props?.user?._id)
-  );
+  const [isLiked, setIsLiked] = useState();
 
-  // console.log(isLiked);
-  // console.log(props?.post?.text);
-  // console.log(props?.post?.liked);
-  // console.log(props?.user?._id);
+  useEffect(() => {
+    setIsLiked(props?.post?.liked?.includes(props?.user?._id));
+  }, [props?.post?.liked?.includes(props?.user?._id)]);
 
   const likePost = async () => {
     setIsLiked((prev) => !prev);
@@ -89,12 +92,12 @@ const Post = (props) => {
       parent: props.parentId,
       user_img: props?.post?.userId?.img,
       user_name: props?.post?.userId?.name,
-      repost_user_name:props?.user?.name,
-      main_user_id:props?.post?.userId?._id
+      repost_user_name: props?.user?.name,
+      main_user_id: props?.post?.userId?._id,
     });
   };
 
-  if(props?.post?.type=="reTweet"){
+  if (props?.post?.type == "reTweet") {
     img = props?.post?.reTweetPostId?.userId?.img;
     user_name = props?.post?.reTweetPostId?.userId?.name;
     text = props?.post?.reTweetPostId?.text;
@@ -103,13 +106,12 @@ const Post = (props) => {
 
   const router = useRouter();
   const profile = () => {
-    if(props?.post?.type=="reTweet"){
+    if (props?.post?.type == "reTweet") {
       router.push({
         pathname: "/profile",
-        query: { id: props?.post?.reTweetPostId?.userId?._id},
+        query: { id: props?.post?.reTweetPostId?.userId?._id },
       });
-    }
-    else{
+    } else {
       router.push({
         pathname: "/profile",
         query: { id: props?.post?.userId?._id },
@@ -118,116 +120,136 @@ const Post = (props) => {
   };
 
   return (
-    <div key={props?.post?._id} className={styles.container}>
-      {props?.post?.type=="reTweet" && <div className={styles.reTweet}><FaRetweet/>{props?.post?.userId?._id==session?.user?.uid ?(<div>You reposted</div>):(<div>{props?.post?.userId?.name} reposted</div>)}</div> }
-      <div className={styles.container_2}>
-        <div>
-          <img className={styles.imgg} src={img} alt="" />
-        </div>
-
-        <div>
-          <div className={styles.container3}>
-            <p onClick={profile} className={styles.container14}>{user_name}</p>
-
-            <div className={styles.container4}>
-              <p>
-                -&nbsp;&nbsp;
-                <Moment fromNow>{props?.post?.createdAt}</Moment>
-              </p>
+    <>
+      {props?.post == "finish" ? (
+        <></>
+      ) : (
+        <div key={props?.post?._id} className={styles.container}>
+          {props?.post?.type == "reTweet" && (
+            <div className={styles.reTweet}>
+              <FaRetweet />
+              {props?.post?.userId?._id == session?.user?.uid ? (
+                <div>You reposted</div>
+              ) : (
+                <div>{props?.post?.userId?.name} reposted</div>
+              )}
             </div>
-          </div>
-          <p>{text}</p>
-          <img className={styles.post_image} src={url} alt="" />
+          )}
+          <div className={styles.container_2}>
+            <div>
+              <img className={styles.imgg} src={img} alt="" />
+            </div>
 
-          <div className={styles.container5}>
-            {props.type !== "reply" && (
-              <div
-                onClick={() => {
-                  setComment((prev) => !prev);
-                  setEdit(false);
-                }}
-                className={styles.container6}
-              >
-                <BsChat className={styles.container6} />
-                {props.totalComments > 0 && (
-                  <span className={styles.container8}>
-                    {props.totalComments}
-                  </span>
+            <div>
+              <div className={styles.container3}>
+                <p onClick={profile} className={styles.container14}>
+                  {user_name}
+                </p>
+
+                <div className={styles.container4}>
+                  <p>
+                    -&nbsp;&nbsp;
+                    <Moment fromNow>{props?.post?.createdAt}</Moment>
+                  </p>
+                </div>
+              </div>
+              <p>{text}</p>
+              <img className={styles.post_image} src={url} alt="" />
+
+              <div className={styles.container5}>
+                {props.type !== "reply" && (
+                  <div
+                    onClick={() => {
+                      setComment((prev) => !prev);
+                      setEdit(false);
+                    }}
+                    className={styles.container6}
+                  >
+                    <BsChat className={styles.container6} />
+                    {props.totalComments > 0 && (
+                      <span className={styles.container8}>
+                        {props.totalComments}
+                      </span>
+                    )}
+                  </div>
+                )}
+
+                {props.user?._id !== isUser ? (
+                  <FaRetweet onClick={reTweet} className={styles.container7} />
+                ) : (
+                  <RiDeleteBin5Line
+                    className={styles.container84}
+                    onClick={deletePost}
+                  />
+                )}
+
+                <div className={styles.container9} onClick={likePost}>
+                  {isLiked ? (
+                    <AiFillHeart className={styles.container10} />
+                  ) : (
+                    <AiOutlineHeart className={styles.container11} />
+                  )}
+                  {props?.post?.liked?.length > 0 && (
+                    <span
+                      className={`${isLiked && styles.container16} ${
+                        styles.container8
+                      }`}
+                    >
+                      {props?.post?.liked?.length}
+                    </span>
+                  )}
+                </div>
+
+                <AiOutlineShareAlt className={styles.container11} />
+
+                {props.user?._id == isUser &&
+                props?.post?.type !== "reTweet" ? (
+                  <div
+                    className={styles.container85}
+                    onClick={() => {
+                      setEdit((prev) => !prev);
+                      setComment(false);
+                    }}
+                  >
+                    <BiCommentEdit />
+                  </div>
+                ) : (
+                  <></>
                 )}
               </div>
+            </div>
+            <div></div>
+            {comment && (
+              <div>
+                <Input
+                  user={props?.user}
+                  type={type}
+                  parentId={props?.post?._id}
+                  setLoading={props.setLoading}
+                  dispatch={props.dispatch}
+                />
+
+                <div>{renderedItems}</div>
+              </div>
             )}
 
-            {props.user?._id !== isUser ? (
-              <FaRetweet onClick={reTweet} className={styles.container7} />
-            ) : (
-              <RiDeleteBin5Line
-                className={styles.container84}
-                onClick={deletePost}
-              />
-            )}
-
-            <div className={styles.container9} onClick={likePost}>
-              {isLiked ? (
-                <AiFillHeart className={styles.container10} />
-              ) : (
-                <AiOutlineHeart className={styles.container11} />
-              )}
-              {props?.post?.liked?.length > 0 && (
-                <span
-                  className={`${isLiked && styles.container16} ${
-                    styles.container8
-                  }`}
-                >
-                  {props?.post?.liked?.length}
-                </span>
+            <div>
+              {edit && (
+                <Edit
+                  user={props.user}
+                  setEdit={setEdit}
+                  id={props?.post?._id}
+                  text={props?.post?.text}
+                  selectedFile={props?.post?.image_url}
+                  dispatch={props.dispatch}
+                  type={props.type}
+                ></Edit>
               )}
             </div>
-
-            <AiOutlineShareAlt className={styles.container11} />
-
-            {props.user?._id == isUser && props?.post?.type!=="reTweet"? (
-              <div
-                className={styles.container85}
-                onClick={() => {
-                  setEdit((prev) => !prev);
-                  setComment(false);
-                }}
-              >
-                <BiCommentEdit />
-              </div>
-            ):<></>}
           </div>
         </div>
-        <div></div>
-        {comment && (
-          <div>
-            <Input
-              user={props?.user}
-              type={type}
-              parentId={props?.post?._id}
-              setLoading={props.setLoading}
-              dispatch={props.dispatch}
-            />
-
-            <div>{renderedItems}</div>
-          </div>
-        )}
-
-        <div>
-          {edit && (
-            <Edit
-              user={props.user}
-              setEdit={setEdit}
-              id={props?.post?._id}
-              text={props?.post?.text}
-              selectedFile={props?.post?.image_url}
-              dispatch={props.dispatch}
-              type={props.type}
-            ></Edit>
-          )}
-        </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 

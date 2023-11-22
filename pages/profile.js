@@ -14,6 +14,8 @@ const profile = () => {
   const { data: session } = useSession();
   const [userState, userDispatch] = useActionDispatcher();
   const [state, dispatch] = useActionDispatcher();
+
+  const [isFinish, setIsFinish] = useState(false);
   const [page,setPage] = useState(0);
 
   const router = useRouter();
@@ -40,6 +42,8 @@ const profile = () => {
           profile_id={id}
           page={page}
           setPage={setPage}
+          setIsFinish={setIsFinish}
+          isFinish={isFinish}
         />
         <Follow profile_id={profile_id} user={state} dispatch={userDispatch} userdispatch={userDispatch}/>
       </div>

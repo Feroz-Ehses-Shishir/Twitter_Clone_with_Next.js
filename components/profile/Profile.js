@@ -12,7 +12,7 @@ import Post from "../homePage/Post";
 import { POST_ACTIONS } from "../../libs/actions/post-actions";
 import { useRouter } from "next/router";
 
-const Profile = ({ user, dispatch, isFollow, profile_id, page, setPage }) => {
+const Profile = ({ user, dispatch, isFollow, profile_id, page, setPage, setIsFinish, isFinish}) => {
   const { data: session } = useSession();
   const [isOpenEdit, setIsOpenEdit] = useState(false);
   const [postState, postDispatch] = useActionDispatcher();
@@ -22,7 +22,7 @@ const Profile = ({ user, dispatch, isFollow, profile_id, page, setPage }) => {
     postDispatch(POST_ACTIONS.GET_BY_PROFILE, { id: profile_id,page:page });
   }, [profile_id,page]);
 
-  const renderedItems = postState?.map((post) => {
+  const renderedItems = postState?.map((post,i) => {
     let totalcomments = post?.comments?.length;
     for (let i = 0; i < post?.comments?.length; i++) {
       totalcomments += post?.comments[i]?.comments?.length;
@@ -31,10 +31,11 @@ const Profile = ({ user, dispatch, isFollow, profile_id, page, setPage }) => {
       <Post
         user={user}
         type="post"
-        key={post?._id}
+        key={i}
         post={post}
         dispatch={postDispatch}
         totalComments={totalcomments}
+        setIsFinish={setIsFinish}
       ></Post>
     );
   });
@@ -139,7 +140,7 @@ const Profile = ({ user, dispatch, isFollow, profile_id, page, setPage }) => {
         </div>
       </div>
       {renderedItems}
-      <div className={styles.btn1} onClick={pageHandle}>show more</div>
+      {isFinish?(<div className={styles.btn1}>no more posts</div>):(<div className={styles.btn1} onClick={pageHandle}>show more</div>)}
     </div>
     
   );
