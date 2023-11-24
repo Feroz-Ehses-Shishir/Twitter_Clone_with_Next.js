@@ -32,7 +32,7 @@ const SideBar = () => {
         <Link href="/home"><a><SideLink text="Home" Icon={AiFillHome} /></a></Link>
         <SideLink text="Explore" Icon={BiHash} />
         <SideLink text="Notifications" Icon={BsBell} />
-        <SideLink text="Messages" Icon={AiOutlineInbox} />
+        <Link href="/messages"><a><SideLink text="Messages" Icon={AiOutlineInbox} /></a></Link>
         <SideLink text="Bookmarks" Icon={BsBookmark} />
         <SideLink text="Lists" Icon={HiOutlineClipboardList} />
         <div onClick={profile}><SideLink  text="Profile" Icon={AiOutlineUser}/></div>

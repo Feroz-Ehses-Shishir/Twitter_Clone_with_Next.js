@@ -61,4 +61,21 @@ const followList = () => {
   );
 };
 
+export async function getServerSideProps({ req }) {   
+  const session = await getSession({ req });
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: { session },
+  };
+}
+
 export default followList;

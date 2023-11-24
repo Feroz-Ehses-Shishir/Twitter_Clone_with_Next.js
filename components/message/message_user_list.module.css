@@ -1,0 +1,115 @@
+.container {
+  position: relative;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-right: 1px solid #9ca3af59;
+  min-height: 100vh;
+  color: #ffffff;
+  width: 350px;
+  margin-left: 22.2%;
+}
+
+.container2 {
+    margin-top: 0.5rem;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+.container3 {
+    position: absolute;
+    width: 90%;
+    border-radius: 5px;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin-top: 1rem;
+    color: #ffffff;
+    background: #16181c;
+  }
+
+  .container1 {
+    display: flex;
+    position: sticky;
+    margin: 1rem;
+    top: 0.25rem;
+    z-index: 10;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    gap: 0.5rem;
+    align-items: center;
+    border-radius: 5px;
+    color: #ffffff;
+    background: #16181c;
+    font-size: 20px;
+  }
+  
+  .container22 {
+    border: none;
+    outline: none;
+    background-color: transparent;
+    width: 100%;
+    color: #ffffff;
+  }
+
+  .container4 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+
+  .container4:hover {
+    background: rgba(86, 86, 86, 0.187);
+  }
+
+  .container33 {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin-top: 2px;
+    cursor: pointer;
+  }
+
+  .container44 {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    margin-top: -12px;
+    color: #808080;
+  }
+  
+  .container5 {
+    display: flex;
+    flex-direction: row;
+    height: 3rem;
+    border-radius: 9999px;
+    transition: all 0.3s ease;
+  }
+  
+  .container5 img {
+    object-fit: cover;
+    border-radius: 9999px;
+    height: 3rem;
+    width: 3rem;
+  }
+  
+  .container6 {
+    object-fit: cover;
+    border-radius: 100%;
+  }
+  
+  .container8{
+    margin-left: 10px;
+  }
+  
+  @media screen and (max-width: 950px) {
+    .container8 {
+      display: none;
+    }
+  }
