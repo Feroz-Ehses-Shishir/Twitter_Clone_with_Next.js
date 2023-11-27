@@ -3,17 +3,54 @@ import styles from "../styles/homePage.module.css";
 import SideBar from "../components/homePage/Side-Bar";
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../contexts/AppContext";
-import { followUserActions, userActions } from "../libs/actions/user-actions";
+import { followUserActions, messageActions, userActions } from "../libs/actions/user-actions";
 import { useActionDispatcher } from "../hooks/use-action-dispatcher";
 import MessageUserList from "../components/message/Message-User-List";
+import io from "socket.io-client";
+import { useRouter } from "next/router";
+let socket;
 
 const messages = () => {
   const { data: session } = useSession();
   const [followList, dispatchFollowList] = useActionDispatcher([]);
+  const [message, setMessage] = useState("");
+  const [allMessages, dispatchAllMessages] = useActionDispatcher([]);
+
+  const router = useRouter();
+  const id = router.query.id;
 
   useEffect(() => {
+    socketInitializer();
     dispatchFollowList(followUserActions.GET_FOLLOWING_LIST, { Id: session?.user?.uid });
   }, []);
+
+  useEffect(() => {
+    dispatchFollowList(messageActions.GET, { id_1: session?.user?.uid, id_2:id });
+  }, [id]);
+
+  console.log(allMessages);
+
+  async function socketInitializer() {
+    await fetch("/api/socket");
+
+    socket = io();
+
+    socket.on("receive-message", (data) => {
+      // setAllMessages((pre) => [...pre, data]);
+    });
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    socket.emit("send-message", {
+      message,
+      to:id,
+      from:session?.user?.uid
+    });
+
+    setMessage("");
+  }
 
   return (
     <div className={styles.container}>
@@ -26,22 +63,15 @@ const messages = () => {
             <div>Name</div>
           </div>
           <div className={styles.chat_body}>
-            <p className={styles.chat1}>Hi</p>
-            <p className={styles.chat2}>Hello</p>
-            <p className={styles.chat1}>Hi</p>
-            <p className={styles.chat2}>Hello</p>
-            <p className={styles.chat1}>Hi</p>
-            <p className={styles.chat2}>Hello</p>
-            <p className={styles.chat1}>Hi</p>
-            <p className={styles.chat2}>Hello</p>
-            <p className={styles.chat1}>Hi</p>
-            <p className={styles.chat2}>Hello</p>
-            <p className={styles.chat1}>Hi</p>
-            <p className={styles.chat2}>Hello</p>
+            {/* {
+              allMessages?.map((msg,i) => (
+                <p key={i} className={styles.chat1}>{msg.message}</p>
+              ))
+            } */}
           </div>
           <div className={styles.chat_footer}>
-            <form>
-              <input type="text"></input>
+            <form onSubmit={handleSubmit}>
+              <input value={message} type="text" placeholder="Enter your message" onChange={(e) => setMessage(e.target.value)}></input>
               <button>SEND</button>
             </form>
           </div>

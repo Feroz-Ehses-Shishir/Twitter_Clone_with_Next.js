@@ -90,3 +90,14 @@ export const followUserActions = {
     });
   },
 };
+
+export const messageActions = {
+  GET: async (payload, state, dispatch) => {
+    try {
+      const { data } = await axios.get(`/api/message?id_1=${payload.id_1}&id_2=${payload.id_2}`);
+      return data;
+    } catch (err) {
+      console.log("error", err);
+    }
+  },
+};
