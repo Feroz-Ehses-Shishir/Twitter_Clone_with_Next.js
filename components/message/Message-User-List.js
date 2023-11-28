@@ -4,7 +4,6 @@ import { FiSearch } from "react-icons/fi";
 
 const MessageUserList = ({followList,setUserId}) => {
 
-  // console.log(followList);
   const router = useRouter();
 
   const profile = (id) => {
@@ -27,7 +26,7 @@ const MessageUserList = ({followList,setUserId}) => {
       <div className={styles.container2}>
         <div className={styles.container3}>
           {followList?.map((user,i) => (
-            <div className={styles.container4} key={i}>
+            <div onClick={() => profile(user?._id)} className={styles.container4} key={i}>
               <div className={styles.container5}>
                 <img
                   className={styles.container6}
@@ -35,7 +34,7 @@ const MessageUserList = ({followList,setUserId}) => {
                   src={user?.img}
                 />
                 <div className={styles.container8}>
-                  <p onClick={() => profile(user?._id)} className={styles.container33}>
+                  <p className={styles.container33}>
                     {user?.name}
                   </p>
                   <p className={styles.container44}>@{user?.name}</p>

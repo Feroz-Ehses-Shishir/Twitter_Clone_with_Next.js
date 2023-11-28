@@ -100,4 +100,12 @@ export const messageActions = {
       console.log("error", err);
     }
   },
+  SET: async (payload, state, dispatch) => {
+    try {
+      const newData = {...state,chat:[...state.chat,payload]};
+      return newData;
+    } catch (err) {
+      console.log("error", err);
+    }
+  },
 };

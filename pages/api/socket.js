@@ -13,9 +13,7 @@ export default async function SocketHandler(req, res) {
 
   io.on("connection", (socket) => {
     socket.on("send-message", async (obj) => {
-
       await messageService(obj);
-
       io.emit("receive-message", obj);
     });
   });

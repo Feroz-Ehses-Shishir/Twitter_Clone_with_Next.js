@@ -21,7 +21,8 @@ const messageService = async (obj) => {
             from: obj.from,
             to: obj.to,
             message: obj.message,
-            seen: "false",
+            seen: obj.seen,
+            time: obj.time
           },
         ],
       });
@@ -30,7 +31,7 @@ const messageService = async (obj) => {
 
       }
     } else {
-      await post.updateOne(
+      await messages.updateOne(
         {
           $or: [
             { firstUserId: obj.from, secondUserId: obj.to },
@@ -41,7 +42,8 @@ const messageService = async (obj) => {
             from: obj.from,
             to: obj.to,
             message: obj.message,
-            seen: "false",
+            seen: obj.seen,
+            time: obj.time
           } } }
       );
     }

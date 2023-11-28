@@ -12,9 +12,14 @@ const allMessageService = async (req,res) => {
         { firstUserId: from, secondUserId: to },
         { firstUserId: to, secondUserId: from },
       ],
+    }).populate({
+      path: 'firstUserId',
+      model: 'user',
+    }).populate({
+      path: 'secondUserId',
+      model: 'user',
     });
-
-    res.status(200).send(data);
+    res.status(200).send(data[0]);
 
   } catch (err) {
     res.status(400).send({ err, msg: "Something went wrong!" });
