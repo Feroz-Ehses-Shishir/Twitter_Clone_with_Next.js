@@ -105,7 +105,7 @@ export const messageActions = {
       const newData = {...state,chat:[...state.chat,payload]};
       return newData;
     } catch (err) {
-      console.log("error", err);
+      // console.log("error", err);
     }
   },
 };

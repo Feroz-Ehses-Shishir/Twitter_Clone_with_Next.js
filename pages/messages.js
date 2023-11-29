@@ -21,6 +21,7 @@ const messages = () => {
   const [message, setMessage] = useState("");
   const [allMessages, dispatchAllMessages] = useActionDispatcher();
   const [newMessage, setNewMessage] = useState();
+  const [isRead,setIsRead] = useState();
 
   const router = useRouter();
   const id = router.query.id;
@@ -37,11 +38,26 @@ const messages = () => {
       id_1: session?.user?.uid,
       id_2: id,
     });
+
+    if (id !== undefined) {
+      socket?.emit("message-seen", {
+        to: id,
+        from: session?.user?.uid,
+        type: "first"
+      });
+    }
   }, [id]);
 
   useEffect(() => {
     if (newMessage !== undefined) {
       dispatchAllMessages(messageActions.SET, newMessage);
+      if (newMessage.to === session?.user?.uid) {
+        socket?.emit("message-seen", {
+          to: id,
+          from: session?.user?.uid,
+          id: newMessage._id,
+        });
+      }
     }
   }, [newMessage]);
 
@@ -52,6 +68,12 @@ const messages = () => {
 
     socket.on("receive-message", (data) => {
       setNewMessage(data);
+    });
+
+    socket.on("message-seen", (data) => {
+      if(data.seenBy==id){
+        setIsRead(true);
+      }
     });
   }
 
@@ -67,16 +89,8 @@ const messages = () => {
     });
 
     setMessage("");
+    setIsRead(false);
   }
-
-  const markAsSeen = (messageId) => {
-    socket.emit('message-seen',{
-      to: id,
-      from: session?.user?.uid,
-      messageId: messageId,
-      seen: session?.user?.uid
-    });
-  };
 
   return (
     <div className={styles.container}>
@@ -90,7 +104,7 @@ const messages = () => {
           message={message}
           setMessage={setMessage}
           handleSubmit={handleSubmit}
-          markAsSeen={markAsSeen}
+          isRead={isRead}
         ></MessageBox>
       </div>
     </div>

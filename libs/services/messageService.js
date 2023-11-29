@@ -26,10 +26,6 @@ const messageService = async (obj) => {
           },
         ],
       });
-
-      return {
-
-      }
     } else {
       await messages.updateOne(
         {
