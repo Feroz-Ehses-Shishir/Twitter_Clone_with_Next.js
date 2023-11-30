@@ -21,58 +21,85 @@ const messages = () => {
   const [message, setMessage] = useState("");
   const [allMessages, dispatchAllMessages] = useActionDispatcher();
   const [newMessage, setNewMessage] = useState();
-  const [isRead,setIsRead] = useState();
+  const [seen,setSeen] = useState();
 
   const router = useRouter();
   const id = router.query.id;
 
   useEffect(() => {
-    socketInitializer();
     dispatchFollowList(followUserActions.GET_FOLLOWING_LIST, {
       Id: session?.user?.uid,
     });
   }, []);
 
+  const seen_func = (type,msg_id) => {
+    
+    socket?.emit("message-seen-server", {
+      to: id,
+      from: session?.user?.uid,
+      type: type,
+      id: msg_id,
+    });
+  }
+
   useEffect(() => {
+    
     dispatchAllMessages(messageActions.GET, {
       id_1: session?.user?.uid,
       id_2: id,
     });
 
+    socketInitializer(session?.user?.uid,id);
+
     if (id !== undefined) {
-      socket?.emit("message-seen", {
-        to: id,
-        from: session?.user?.uid,
-        type: "first"
-      });
+      seen_func("first");
     }
+
+    return () => {
+      socket.disconnect();
+    };
+
   }, [id]);
 
   useEffect(() => {
     if (newMessage !== undefined) {
       dispatchAllMessages(messageActions.SET, newMessage);
-      if (newMessage.to === session?.user?.uid) {
-        socket?.emit("message-seen", {
-          to: id,
-          from: session?.user?.uid,
-          id: newMessage._id,
-        });
+      if(newMessage.to==session.user.uid){
+        seen_func("seen",newMessage._id);
       }
     }
   }, [newMessage]);
 
-  async function socketInitializer() {
-    await fetch("/api/socket");
+  useEffect(() => {
+    dispatchAllMessages(messageActions.SEEN,{data: seen});
+  }, [seen]);
 
-    socket = io();
+  async function socketInitializer(id1,id2) {
+
+    await fetch(`/api/socket`);
+
+    function findMinMax(str1, str2) {
+      const minValue = str1 < str2 ? str1 : str2;
+      const maxValue = str1 > str2 ? str1 : str2;
+      return { minValue, maxValue };
+    }
+
+    const { minValue, maxValue } = findMinMax(id1,id2);
+    const roomId = minValue+maxValue;
+
+    socket = io({
+      query: {
+        roomID:roomId
+      }
+    });
 
     socket.on("receive-message", (data) => {
       setNewMessage(data);
     });
 
     socket.on("message-seen", (data) => {
-      if(data.seenBy==id){
-        setIsRead(true);
+      if(data.from==session?.user?.uid){
+        setSeen(data);
       }
     });
   }
@@ -89,7 +116,6 @@ const messages = () => {
     });
 
     setMessage("");
-    setIsRead(false);
   }
 
   return (
@@ -104,7 +130,6 @@ const messages = () => {
           message={message}
           setMessage={setMessage}
           handleSubmit={handleSubmit}
-          isRead={isRead}
         ></MessageBox>
       </div>
     </div>

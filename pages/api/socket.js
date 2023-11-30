@@ -13,22 +13,39 @@ export default async function SocketHandler(req, res) {
   res.socket.server.io = io;
 
   io.on("connection", (socket) => {
+    socket.join(socket.handshake.query.roomID);
 
-    
+    //   // Join a room
+    // socket.join('room1');
+
+    // // Handle disconnection
+    // socket.on('disconnect', () => {
+    //   console.log('User disconnected');
+
+    //   // Disconnect the socket from the room when the user disconnects
+    //   socket.leave('room1');
+    // });
 
     socket.on("send-message", async (obj) => {
       await messageService(obj);
       const data = await messageGetService(obj, "just message");
-      io.emit("receive-message", data);
+      io.to(socket.handshake.query.roomID).emit("receive-message", data);
     });
 
-    socket.on("message-seen", async (obj) => {
-      // if (obj.type == "first") {
-      //   await messageGetService(obj, "first");
-      // } else {
-      //   await messageGetService(obj, "seen");
-      // }
-      io.emit("message-seen", {seenBy:obj.from,status:"Yes"});
+    socket.on("message-seen-server", async (obj) => {
+
+      console.log(obj);
+
+      if (obj.type == "first") {
+        await messageGetService(obj, "first");
+      } else {
+        await messageGetService(obj, "seen");
+      }
+
+      const data = await messageGetService(obj, "just message");
+
+      io.to(socket.handshake.query.roomID).emit("message-seen", data);
+
     });
   });
 
