@@ -33,7 +33,6 @@ const messages = () => {
   }, []);
 
   const seen_func = (type,msg_id) => {
-    
     socket?.emit("message-seen-server", {
       to: id,
       from: session?.user?.uid,
@@ -43,6 +42,12 @@ const messages = () => {
   }
 
   useEffect(() => {
+    dispatchFollowList(followUserActions.GET_FOLLOWING_LIST, {
+      Id: session?.user?.uid,
+    });
+  }, []);
+
+  useEffect(() => {
     
     dispatchAllMessages(messageActions.GET, {
       id_1: session?.user?.uid,
@@ -50,10 +55,6 @@ const messages = () => {
     });
 
     socketInitializer(session?.user?.uid,id);
-
-    if (id !== undefined) {
-      seen_func("first");
-    }
 
     return () => {
       socket.disconnect();
@@ -93,12 +94,14 @@ const messages = () => {
       }
     });
 
+    seen_func("first");
+
     socket.on("receive-message", (data) => {
       setNewMessage(data);
     });
 
     socket.on("message-seen", (data) => {
-      if(data.from==session?.user?.uid){
+      if(data?.from==session?.user?.uid){
         setSeen(data);
       }
     });
