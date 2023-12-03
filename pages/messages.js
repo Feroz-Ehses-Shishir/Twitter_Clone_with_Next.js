@@ -26,12 +26,6 @@ const messages = () => {
   const router = useRouter();
   const id = router.query.id;
 
-  useEffect(() => {
-    dispatchFollowList(followUserActions.GET_FOLLOWING_LIST, {
-      Id: session?.user?.uid,
-    });
-  }, []);
-
   const seen_func = (type,msg_id) => {
     socket?.emit("message-seen-server", {
       to: id,
@@ -97,6 +91,7 @@ const messages = () => {
     seen_func("first");
 
     socket.on("receive-message", (data) => {
+      console.log("new message");
       setNewMessage(data);
     });
 

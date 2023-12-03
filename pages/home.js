@@ -7,6 +7,8 @@ import { followUserActions, userActions } from "../libs/actions/user-actions";
 import { useActionDispatcher } from "../hooks/use-action-dispatcher";
 import { useEffect } from "react";
 
+let socket;
+
 const Home = () => {
 
   const { data: session } = useSession();
@@ -14,6 +16,7 @@ const Home = () => {
   const [state, dispatch] = useActionDispatcher();
 
   useEffect(() => {
+    socketInitializer();
     userDispatch(userActions.GET_BY_ID, { id: session?.user?.uid });
     dispatch(followUserActions.GET,{Id:session?.user?.uid});
   }, []);

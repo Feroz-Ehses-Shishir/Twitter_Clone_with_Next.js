@@ -31,7 +31,6 @@ export default async function SocketHandler(req, res) {
 
       socket.on("message-seen-server", async (obj) => {
         if (obj.type == "first") {
-          console.log("first");
           await messageGetService(obj, "first");
         } else {
           await messageGetService(obj, "seen");

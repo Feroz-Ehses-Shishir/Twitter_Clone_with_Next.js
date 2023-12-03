@@ -6,16 +6,18 @@ const messageGetService = async (obj, type) => {
 
   if (type == "first") {
     try {
-      console.log(obj.from);
+      const form = obj?.from;
+      // console.log(form);
+      
       await messages.updateMany(
         {
           $or: [
             { firstUserId: obj.from, secondUserId: obj.to },
             { firstUserId: obj.to, secondUserId: obj.from },
           ],
-          "chat.to": obj.from,
+          "chat.to": form,
         },
-        { $set: { "chat.$.seen": "Yes" } }
+        { $set: { "chat.$[].seen": "Yes" } }
       );
     } catch (err) {
       console.log(err,"first Error");
