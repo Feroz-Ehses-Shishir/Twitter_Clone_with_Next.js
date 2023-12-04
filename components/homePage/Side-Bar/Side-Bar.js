@@ -11,13 +11,20 @@ import SideLink from "../Side-Link/Side-Link";
 import { useSession, signOut, getSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AppContext } from "../../../contexts/AppContext";
 
-const SideBar = () => {
+const SideBar = ({notification,setNotification,id}) => {
   const { data: session } = useSession();
   const router = useRouter();
-  const [notification, setNotification] = useContext(AppContext);
+  // console.log(notification);
+  // console.log(id);
+  useEffect(() => {
+    if(id==notification?.from){
+      console.log("hha");
+      setNotification();
+    }
+  }, []);
 
   const profile = () => {
     router.push({
@@ -27,7 +34,6 @@ const SideBar = () => {
   };
 
   const message = () => {
-    setNotification();
     router.push({
       pathname: "/messages",
     });

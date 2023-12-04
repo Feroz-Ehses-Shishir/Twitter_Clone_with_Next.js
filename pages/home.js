@@ -42,7 +42,7 @@ const Home = () => {
 
   return (
     <div className={styles.container}>
-      <SideBar></SideBar>
+      <SideBar setNotification={setNotification} notification={notification}></SideBar>
       <div className={styles.feed_container}>
         <Feed/>
         <Follow user={state} dispatch={userDispatch}></Follow>

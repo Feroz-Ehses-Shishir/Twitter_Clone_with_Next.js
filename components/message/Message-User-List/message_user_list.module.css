@@ -108,8 +108,29 @@
   .container8{
     margin-left: 10px;
   }
+
+  .container9{
+    margin-left: 10px;
+    font-weight: bold;
+    color: aquamarine;
+  }
+
+  .container34 {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: bold;
+    color: aquamarine;
+    margin-top: 2px;
+    cursor: pointer;
+  }
+
+  @media screen and (max-width: 850px) {
+    .container44 {
+      display: none;
+    }
+  }
   
-  @media screen and (max-width: 750px) {
+  @media screen and (max-width: 550px) {
     .container8 {
       display: none;
     }

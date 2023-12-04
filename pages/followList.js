@@ -60,7 +60,7 @@ const followList = () => {
 
   return (
     <div className={styles.container}>
-      <SideBar></SideBar>
+      <SideBar setNotification={setNotification} notification={notification}></SideBar>
       <div className={styles.feed_container}>
         <Following_Followers
           current_user={userState}

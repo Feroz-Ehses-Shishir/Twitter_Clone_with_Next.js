@@ -54,7 +54,7 @@ const profile = () => {
 
   return (
     <div className={styles.container}>
-      <SideBar></SideBar>
+      <SideBar setNotification={setNotification} notification={notification}></SideBar>
       <div className={styles.feed_container}>
         <Profile
           isFollow={isFollow}

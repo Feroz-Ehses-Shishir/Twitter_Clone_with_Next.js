@@ -22,8 +22,9 @@ const messages = () => {
   const [allMessages, dispatchAllMessages] = useActionDispatcher();
   const [newMessage, setNewMessage] = useState();
   const [seen,setSeen] = useState();
-  // const [notification, setNotification] = useContext(AppContext);
-
+  const [notification, setNotification] = useContext(AppContext);
+  const [ID,setID] = useState();
+  
   const router = useRouter();
   const id = router.query.id;
 
@@ -37,10 +38,27 @@ const messages = () => {
   }
 
   useEffect(() => {
+    socketInitializer2();
     dispatchFollowList(followUserActions.GET_FOLLOWING_LIST, {
       Id: session?.user?.uid,
     });
   }, []);
+
+  async function socketInitializer2() {
+
+    await fetch(`/api/socket`);
+
+    socket = io({
+      query: {
+        ID:session?.user?.uid,
+      }
+    });
+
+    socket.on("notification-message", (data) => {
+      setNotification(data);
+    });
+
+  }
 
   useEffect(() => {
     
@@ -50,7 +68,7 @@ const messages = () => {
     });
 
     socketInitializer(session?.user?.uid,id);
-
+    setID(id);
     return () => {
       socket.disconnect();
     };
@@ -58,6 +76,7 @@ const messages = () => {
   }, [id]);
 
   useEffect(() => {
+    // setNotification();
     if (newMessage !== undefined) {
       dispatchAllMessages(messageActions.SET, newMessage);
       if(newMessage.to==session.user.uid){
@@ -118,10 +137,10 @@ const messages = () => {
 
   return (
     <div className={styles.container}>
-      <SideBar></SideBar>
+      <SideBar notification={notification} id={ID} setNotification={setNotification}></SideBar>
       <div className={styles.feed_container}>
         {followList !== undefined && (
-          <MessageUserList followList={followList}></MessageUserList>
+          <MessageUserList followList={followList} id={ID}></MessageUserList>
         )}
         {id!=undefined && <MessageBox
           allMessages={allMessages}
