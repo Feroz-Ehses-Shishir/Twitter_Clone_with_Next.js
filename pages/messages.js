@@ -20,6 +20,7 @@ const messages = () => {
   const [followList, dispatchFollowList] = useActionDispatcher([]);
   const [message, setMessage] = useState("");
   const [allMessages, dispatchAllMessages] = useActionDispatcher();
+  
   const [newMessage, setNewMessage] = useState();
   const [seen,setSeen] = useState();
   const [notification, setNotification] = useContext(AppContext);
