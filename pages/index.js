@@ -1,5 +1,5 @@
 import styles from '../styles/Home.module.css';
-import AuthPage from '../components/auth/Auth-Page';
+import AuthPage from '../components/auth/Auth-Page/Auth-Page'
 
 export default function Home() {
   return (

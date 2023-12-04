@@ -7,12 +7,12 @@ import {
   HiOutlineClipboardList,
   HiOutlineDotsCircleHorizontal,
 } from "react-icons/hi";
-import SideLink from "./Side-Link";
+import SideLink from "../Side-Link/Side-Link";
 import { useSession, signOut, getSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useContext } from "react";
-import { AppContext } from "../../contexts/AppContext";
+import { AppContext } from "../../../contexts/AppContext";
 
 const SideBar = () => {
   const { data: session } = useSession();

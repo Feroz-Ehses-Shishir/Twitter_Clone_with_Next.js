@@ -1,8 +1,8 @@
 import { useSession, signIn, signOut, getSession } from "next-auth/react";
 import styles from "../styles/homePage.module.css";
-import SideBar from "../components/homePage/Side-Bar";
-import Feed from "../components/homePage/Feed";
-import Follow from "../components/homePage/Follow";
+import SideBar from "../components/homePage/Side-Bar/Side-Bar";
+import Feed from "../components/homePage/Feed/Feed";
+import Follow from "../components/homePage/Follow/Follow";
 import { followUserActions, userActions } from "../libs/actions/user-actions";
 import { useActionDispatcher } from "../hooks/use-action-dispatcher";
 import { useContext, useEffect, useState } from "react";

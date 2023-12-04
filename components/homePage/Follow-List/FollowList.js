@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import {
   followUserActions,
   userActions,
-} from "../../libs/actions/user-actions";
+} from "../../../libs/actions/user-actions";
 
 const FollowList = ({ user, dispatch, userdispatch, profile_id }) => {
   const { data: session } = useSession();

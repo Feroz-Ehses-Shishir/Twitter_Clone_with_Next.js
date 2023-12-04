@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styles from "./edit.module.css";
-import { userActions } from "../../libs/actions/user-actions";
-import uploadAction from "../../libs/actions/uploadAction";
+import { userActions } from "../../../libs/actions/user-actions";
+import uploadAction from "../../../libs/actions/uploadAction";
 
 const Edit = (props) => {
 

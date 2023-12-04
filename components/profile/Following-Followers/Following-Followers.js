@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import FollowList from "../homePage/FollowList";
+import FollowList from "../../homePage/Follow-List/FollowList";
 import styles from "./following_followers.module.css";
 
 const Following_Followers = (props) => {

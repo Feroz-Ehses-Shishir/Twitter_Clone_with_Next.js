@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styles from "./singUpForm.module.css";
-import signUpAction from "../../libs/actions/signUpAction";
+import signUpAction from "../../../libs/actions/signUpAction";
 import { useRouter } from "next/router";
 
 const SignUp = (props) => {

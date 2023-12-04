@@ -1,11 +1,11 @@
 import styles from "./feed.module.css";
-import Input from "./Input";
-import Post from "./Post";
+import Input from "../Input/Input";
+import Post from "../Post/Post";
 import { useContext, useEffect, useState } from "react";
-import { AppContext } from "../../contexts/AppContext";
-import { POST_ACTIONS } from "../../libs/actions/post-actions";
-import { useActionDispatcher } from "../../hooks/use-action-dispatcher";
-import { userActions } from "../../libs/actions/user-actions";
+import { AppContext } from "../../../contexts/AppContext";
+import { POST_ACTIONS } from "../../../libs/actions/post-actions";
+import { useActionDispatcher } from "../../../hooks/use-action-dispatcher";
+import { userActions } from "../../../libs/actions/user-actions";
 import { useSession } from "next-auth/react";
 
 const Feed = () => {

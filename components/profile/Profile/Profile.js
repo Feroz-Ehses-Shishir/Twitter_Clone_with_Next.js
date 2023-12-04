@@ -1,15 +1,15 @@
 import styles from "./profile.module.css";
 import { BiCalendar } from "react-icons/bi";
 import { useSession, signOut, getSession } from "next-auth/react";
-import Modal from "../modal/Modal";
+import Modal from "../../modal/Modal";
 import { useEffect, useState } from "react";
-import Edit from "./Edit";
-import { useActionDispatcher } from "../../hooks/use-action-dispatcher";
-import { userActions } from "../../libs/actions/user-actions";
+import Edit from "../Edit/Edit";
+import { useActionDispatcher } from "../../../hooks/use-action-dispatcher";
+import { userActions } from "../../../libs/actions/user-actions";
 import moment from "moment";
 import Link from "next/link";
-import Post from "../homePage/Post";
-import { POST_ACTIONS } from "../../libs/actions/post-actions";
+import Post from "../../homePage/Post/Post";
+import { POST_ACTIONS } from "../../../libs/actions/post-actions";
 import { useRouter } from "next/router";
 
 const Profile = ({ user, dispatch, isFollow, profile_id, page, setPage, setIsFinish, isFinish}) => {

@@ -6,10 +6,10 @@ import { AiOutlineHeart, AiOutlineShareAlt, AiFillHeart } from "react-icons/ai";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { BiCommentEdit } from "react-icons/bi";
 import { useEffect, useState } from "react";
-import { POST_ACTIONS } from "../../libs/actions/post-actions";
-import { useActionDispatcher } from "../../hooks/use-action-dispatcher";
-import Edit from "./Edit";
-import Input from "./Input";
+import { POST_ACTIONS } from "../../../libs/actions/post-actions";
+import { useActionDispatcher } from "../../../hooks/use-action-dispatcher";
+import Edit from "../Edit/Edit";
+import Input from "../Input/Input";
 import Moment from "react-moment";
 import { useRouter } from "next/router";
 

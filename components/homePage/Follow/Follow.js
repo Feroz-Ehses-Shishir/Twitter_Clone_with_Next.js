@@ -1,6 +1,6 @@
 import { FiSearch } from "react-icons/fi";
 import styles from "./follow.module.css";
-import FollowList from "./FollowList";
+import FollowList from "../Follow-List/FollowList";
 
 const Follow = (props) => {
 

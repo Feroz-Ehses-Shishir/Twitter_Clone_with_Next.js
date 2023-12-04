@@ -1,6 +1,6 @@
 import { useSession, signIn, signOut, getSession } from "next-auth/react";
 import styles from "../styles/homePage.module.css";
-import SideBar from "../components/homePage/Side-Bar";
+import SideBar from "../components/homePage/Side-Bar/Side-Bar";
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../contexts/AppContext";
 import {
@@ -9,10 +9,10 @@ import {
   userActions,
 } from "../libs/actions/user-actions";
 import { useActionDispatcher } from "../hooks/use-action-dispatcher";
-import MessageUserList from "../components/message/Message-User-List";
+import MessageUserList from "../components/message/Message-User-List/Message-User-List";
 import io from "socket.io-client";
 import { useRouter } from "next/router";
-import MessageBox from "../components/message/message-box";
+import MessageBox from "../components/message/Message-Box/message-box";
 let socket;
 
 const messages = () => {

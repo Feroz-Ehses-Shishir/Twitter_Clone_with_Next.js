@@ -3,9 +3,9 @@ import styles from "./input.module.css";
 import { useSession, signOut, getSession } from "next-auth/react";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsImage } from "react-icons/bs";
-import uploadAction from "../../libs/actions/uploadAction";
-import { POST_ACTIONS } from "../../libs/actions/post-actions";
-import { AppContext } from "../../contexts/AppContext";
+import uploadAction from "../../../libs/actions/uploadAction";
+import { POST_ACTIONS } from "../../../libs/actions/post-actions";
+import { AppContext } from "../../../contexts/AppContext";
 import { spread } from "axios";
 
 const Input = (props) => {

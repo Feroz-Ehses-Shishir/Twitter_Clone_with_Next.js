@@ -1,15 +1,15 @@
 import { useSession, signIn, signOut, getSession } from "next-auth/react";
 import styles from "../styles/homePage.module.css";
-import SideBar from "../components/homePage/Side-Bar";
-import Feed from "../components/homePage/Feed";
-import Profile from "../components/profile/Profile";
-import Follow from "../components/homePage/Follow";
+import SideBar from "../components/homePage/Side-Bar/Side-Bar";
+import Feed from "../components/homePage/Feed/Feed";
+import Profile from "../components/profile/Profile/Profile";
+import Follow from "../components/homePage/Follow/Follow";
 import { useContext, useEffect } from "react";
 import { AppContext } from "../contexts/AppContext";
 import { followUserActions, userActions } from "../libs/actions/user-actions";
 import { useActionDispatcher } from "../hooks/use-action-dispatcher";
 import { useRouter } from "next/router";
-import Following_Followers from "../components/profile/Following-Followers";
+import Following_Followers from "../components/profile/Following-Followers/Following-Followers";
 import io from "socket.io-client";
 let socket;
 
