@@ -110,13 +110,11 @@ export const messageActions = {
   },
   SEEN: async (payload, state, dispatch) => {
     try {
-      console.log(payload);
       const newData = {...state,
         chat : state.chat.map(msg => 
           (msg._id==payload.data._id)?{...msg, seen: payload.data.seen } : msg
         )
       }
-      console.log(newData);
       return newData;
     } catch (err) {
       console.log("error", err);

@@ -4,14 +4,14 @@ import messageGetService from "../../libs/services/messageGetService";
 
 export default async function SocketHandler(req, res) {
   if (res.socket.server.io) {
-    console.log("Already set up");
+    console.log("already set up");
   } else {
     const io = new Server(res.socket.server);
     res.socket.server.io = io;
 
     io.on("connection", (socket) => {
       socket.join(socket.handshake.query.roomID);
-
+      socket.join(socket.handshake.query.ID);
       //   // Join a room
       // socket.join('room1');
 
@@ -27,6 +27,7 @@ export default async function SocketHandler(req, res) {
         await messageService(obj);
         const data = await messageGetService(obj, "just message");
         io.to(socket.handshake.query.roomID).emit("receive-message", data);
+        io.to(obj.to).emit("notification-message", data);
       });
 
       socket.on("message-seen-server", async (obj) => {

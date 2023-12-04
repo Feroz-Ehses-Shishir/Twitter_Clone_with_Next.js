@@ -10,17 +10,21 @@ import { followUserActions, userActions } from "../libs/actions/user-actions";
 import { useActionDispatcher } from "../hooks/use-action-dispatcher";
 import { useRouter } from "next/router";
 import Following_Followers from "../components/profile/Following-Followers";
+import io from "socket.io-client";
+let socket;
 
 const followList = () => {
   const { data: session } = useSession();
   const [userState, userDispatch] = useActionDispatcher();
   const [state, dispatch] = useActionDispatcher();
   const [followList, dispatchFollowList] = useActionDispatcher();
+  const [notification, setNotification] = useContext(AppContext);
 
   const router = useRouter();
   const id = router.query.id;
 
   useEffect(() => {
+    socketInitializer();
     if (id !== undefined) {
       userDispatch(userActions.GET_BY_ID, { id: id });
       if(router.query.type=="Following"){
@@ -31,6 +35,22 @@ const followList = () => {
       }
     }
   }, [id]);
+
+  async function socketInitializer() {
+
+    await fetch(`/api/socket`);
+
+    socket = io({
+      query: {
+        ID:session?.user?.uid,
+      }
+    });
+
+    socket.on("notification-message", (data) => {
+      setNotification(data);
+    });
+
+  }
 
   useEffect(() => {
     if (session?.user?.uid !== undefined) {

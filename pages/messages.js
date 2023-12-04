@@ -22,6 +22,7 @@ const messages = () => {
   const [allMessages, dispatchAllMessages] = useActionDispatcher();
   const [newMessage, setNewMessage] = useState();
   const [seen,setSeen] = useState();
+  // const [notification, setNotification] = useContext(AppContext);
 
   const router = useRouter();
   const id = router.query.id;
@@ -91,7 +92,6 @@ const messages = () => {
     seen_func("first");
 
     socket.on("receive-message", (data) => {
-      console.log("new message");
       setNewMessage(data);
     });
 
@@ -123,12 +123,12 @@ const messages = () => {
         {followList !== undefined && (
           <MessageUserList followList={followList}></MessageUserList>
         )}
-        <MessageBox
+        {id!=undefined && <MessageBox
           allMessages={allMessages}
           message={message}
           setMessage={setMessage}
           handleSubmit={handleSubmit}
-        ></MessageBox>
+        ></MessageBox>}
       </div>
     </div>
   );

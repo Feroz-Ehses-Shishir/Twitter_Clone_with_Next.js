@@ -9,6 +9,8 @@ import { AppContext } from "../contexts/AppContext";
 import { followUserActions, userActions } from "../libs/actions/user-actions";
 import { useActionDispatcher } from "../hooks/use-action-dispatcher";
 import { useRouter } from "next/router";
+import io from "socket.io-client";
+let socket;
 
 const profile = () => {
   const { data: session } = useSession();
@@ -18,16 +20,35 @@ const profile = () => {
   const [isFinish, setIsFinish] = useState(false);
   const [page,setPage] = useState(0);
 
+  const [notification, setNotification] = useContext(AppContext);
+
   const router = useRouter();
   const id = router.query.id;
 
   const [profile_id,setProfile_id] = useState(id);
 
   useEffect(() => {
+    socketInitializer();
     userDispatch(userActions.GET_BY_ID, { id: id });
     dispatch(followUserActions.GET, { Id: session?.user?.uid });
     setPage(0);
   }, [id]);
+
+  async function socketInitializer() {
+
+    await fetch(`/api/socket`);
+
+    socket = io({
+      query: {
+        ID:session?.user?.uid,
+      }
+    });
+
+    socket.on("notification-message", (data) => {
+      setNotification(data);
+    });
+
+  }
 
   const isFollow = userState?.followers?.includes(session?.user?.uid);
 

@@ -5,8 +5,9 @@ import Feed from "../components/homePage/Feed";
 import Follow from "../components/homePage/Follow";
 import { followUserActions, userActions } from "../libs/actions/user-actions";
 import { useActionDispatcher } from "../hooks/use-action-dispatcher";
-import { useEffect } from "react";
-
+import { useContext, useEffect, useState } from "react";
+import io from "socket.io-client";
+import { AppContext } from "../contexts/AppContext";
 let socket;
 
 const Home = () => {
@@ -15,11 +16,29 @@ const Home = () => {
   const [userState, userDispatch] = useActionDispatcher();
   const [state, dispatch] = useActionDispatcher();
 
+  const [notification, setNotification] = useContext(AppContext);
+
   useEffect(() => {
     socketInitializer();
     userDispatch(userActions.GET_BY_ID, { id: session?.user?.uid });
     dispatch(followUserActions.GET,{Id:session?.user?.uid});
   }, []);
+
+  async function socketInitializer() {
+
+    await fetch(`/api/socket`);
+
+    socket = io({
+      query: {
+        ID:session?.user?.uid,
+      }
+    });
+
+    socket.on("notification-message", (data) => {
+      setNotification(data);
+    });
+
+  }
 
   return (
     <div className={styles.container}>

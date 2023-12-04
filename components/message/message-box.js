@@ -26,7 +26,7 @@ const MessageBox = ({ allMessages, message, setMessage, handleSubmit, isRead}) =
               {msg.from == session?.user?.uid ? (
                 <>
                   <p className={styles.chat2}>{msg.message}</p>
-                  {(msg.seen=="Yes") && <div className={styles.chat2_seen}>Read</div>}
+                  {(msg.seen=="Yes" && allMessages?.chat?.length-1==i) && <div className={styles.chat2_seen}>Read</div>}
                 </>
               ) : (
                 <p className={styles.chat1}>{msg.message}</p>
