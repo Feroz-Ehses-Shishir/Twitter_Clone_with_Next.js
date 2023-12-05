@@ -6,21 +6,21 @@ const messageGetService = async (obj, type) => {
 
   if (type == "first") {
     try {
-      const form = obj?.from;
-      // console.log(form);
-      
+      const form = obj.from;
       await messages.updateMany(
         {
           $or: [
             { firstUserId: obj.from, secondUserId: obj.to },
             { firstUserId: obj.to, secondUserId: obj.from },
           ],
-          "chat.to": form,
         },
-        { $set: { "chat.$[].seen": "Yes" } }
+        { $set: { "chat.$[elem].seen": "Yes" } },
+        {
+          arrayFilters: [{'elem.to':obj.from}]
+        }
       );
     } catch (err) {
-      console.log(err,"first Error");
+      // console.log(err,"first Error");
     }
   } else if (type == "seen") {
     try {
@@ -35,7 +35,7 @@ const messageGetService = async (obj, type) => {
         { $set: { "chat.$.seen": "Yes" } }
       );
     } catch (err) {
-      console.log("Error");
+      // console.log("Error");
     }
   } else {
     try {
@@ -47,7 +47,7 @@ const messageGetService = async (obj, type) => {
       });
       return data[0].chat.slice(-1)[0];
     } catch (err) {
-      console.log("Error");
+      // console.log("Error");
     }
   }
 };

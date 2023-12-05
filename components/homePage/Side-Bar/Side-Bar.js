@@ -17,14 +17,11 @@ import { AppContext } from "../../../contexts/AppContext";
 const SideBar = ({notification,setNotification,id}) => {
   const { data: session } = useSession();
   const router = useRouter();
-  // console.log(notification);
-  // console.log(id);
   useEffect(() => {
     if(id==notification?.from){
-      console.log("hha");
       setNotification();
     }
-  }, []);
+  }, [notification]);
 
   const profile = () => {
     router.push({

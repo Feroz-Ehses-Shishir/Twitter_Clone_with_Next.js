@@ -25,7 +25,7 @@ const messages = () => {
   const [seen,setSeen] = useState();
   const [notification, setNotification] = useContext(AppContext);
   const [ID,setID] = useState();
-  
+  // console.log(notification);
   const router = useRouter();
   const id = router.query.id;
 
@@ -62,7 +62,6 @@ const messages = () => {
   }
 
   useEffect(() => {
-    
     dispatchAllMessages(messageActions.GET, {
       id_1: session?.user?.uid,
       id_2: id,
